@@ -8,7 +8,7 @@
 
 extension ParseClient {
     
-    func getStudentLocations(completionHandler: (error: NSError?) -> Void) {
+    func getStudentLocations(completionHandler: (success: Bool, error: NSError?) -> Void) {
         
         /* 1. Specify parameters, method (if has {key}), and HTTP body (if POST) */
         let parameters: [String : AnyObject] = [ParameterKeys.Limit: 100, ParameterKeys.Order: "-\(JSONResponseKeys.UpdatedAt)"]
@@ -19,16 +19,16 @@ extension ParseClient {
             
             /* 3. Send the desired value(s) to completion handler */
             if let error = error {
-                completionHandler(error: error)
+                completionHandler(success: false, error: error)
             } else {
                 
                 if let results = JSONResult[JSONResponseKeys.Results] as? [[String : AnyObject]] {
-                    print("JSONResult: \(JSONResult)")
+                    //print("JSONResult: \(JSONResult)")
                     
                     self.ParseStudentLocations = ParseStudentInformation.studentinfoFromResults(results)
-                    completionHandler(error: nil)
+                    completionHandler(success: true, error: nil)
                 } else {
-                    completionHandler(error: NSError(domain: "getFavoriteMovies parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse getFavoriteMovies"]))
+                    completionHandler(success: false, error: NSError(domain: "getFavoriteMovies parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse getFavoriteMovies"]))
                 }
             }
         }

@@ -16,8 +16,8 @@ struct ParseStudentInformation {
     var LastName: String
     var MapString: String
     var MediaURL: String
-    var Latitude: Float
-    var Longitude: Float
+    var Latitude: Double
+    var Longitude: Double
     
     // MARK: Initializers
     
@@ -31,8 +31,8 @@ struct ParseStudentInformation {
         MapString = dictionary[ParseClient.JSONResponseKeys.MapString] as! String
         MediaURL = dictionary[ParseClient.JSONResponseKeys.MediaURL] as! String
         ObjectId = dictionary[ParseClient.JSONResponseKeys.ObjectId] as! String
-        Latitude = dictionary[ParseClient.JSONResponseKeys.Latitude] as! Float
-        Longitude = dictionary[ParseClient.JSONResponseKeys.Longitude] as! Float
+        Latitude = dictionary[ParseClient.JSONResponseKeys.Latitude] as! Double
+        Longitude = dictionary[ParseClient.JSONResponseKeys.Longitude] as! Double
     }
     
     /* Helper: Given an array of dictionaries, convert them to an array of TMDBMovie objects */

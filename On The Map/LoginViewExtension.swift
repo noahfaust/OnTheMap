@@ -39,4 +39,16 @@ extension LoginViewController: UITextFieldDelegate {
     func handleSingleTap(recognizer: UITapGestureRecognizer) {
         self.view.endEditing(true)
     }
+    
+    // MARK: Show and Hide loading activity indicator
+    func showLoadingIndicator() {
+        loadingIndicator.hidden = false
+        loadingIndicator.startAnimating()
+        view.userInteractionEnabled = false
+    }
+    func hideLoadingIndicator() {
+        loadingIndicator.hidden = true
+        loadingIndicator.stopAnimating()
+        view.userInteractionEnabled = true
+    }
 }

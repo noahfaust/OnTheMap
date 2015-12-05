@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		F103B9751C12E6F300D2B842 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F103B9741C12E6F300D2B842 /* TableViewController.swift */; };
+		F103B9771C12F0FF00D2B842 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F103B9761C12F0FF00D2B842 /* MapViewController.swift */; };
+		F103B97D1C13513100D2B842 /* ViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F103B97C1C13513100D2B842 /* ViewControllerExtension.swift */; };
 		F10540C41C12CCA600F842F3 /* LoginViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10540C31C12CCA600F842F3 /* LoginViewExtension.swift */; };
 		F10540C61C12D33700F842F3 /* ParceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10540C51C12D33700F842F3 /* ParceClient.swift */; };
 		F10540C81C12D35600F842F3 /* ParseConstantsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10540C71C12D35600F842F3 /* ParseConstantsExtension.swift */; };
@@ -48,6 +50,8 @@
 
 /* Begin PBXFileReference section */
 		F103B9741C12E6F300D2B842 /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
+		F103B9761C12F0FF00D2B842 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		F103B97C1C13513100D2B842 /* ViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewControllerExtension.swift; sourceTree = "<group>"; };
 		F10540C31C12CCA600F842F3 /* LoginViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewExtension.swift; sourceTree = "<group>"; };
 		F10540C51C12D33700F842F3 /* ParceClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParceClient.swift; sourceTree = "<group>"; };
 		F10540C71C12D35600F842F3 /* ParseConstantsExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseConstantsExtension.swift; sourceTree = "<group>"; };
@@ -166,6 +170,8 @@
 				F1F634971C0F019D00A7E67C /* LoginViewController.swift */,
 				F10540C31C12CCA600F842F3 /* LoginViewExtension.swift */,
 				F103B9741C12E6F300D2B842 /* TableViewController.swift */,
+				F103B9761C12F0FF00D2B842 /* MapViewController.swift */,
+				F103B97C1C13513100D2B842 /* ViewControllerExtension.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -376,9 +382,11 @@
 				F10540C41C12CCA600F842F3 /* LoginViewExtension.swift in Sources */,
 				F1F634DE1C11788400A7E67C /* UdacityClient.swift in Sources */,
 				F10540CA1C12DB4C00F842F3 /* ParseConvenienceExtension.swift in Sources */,
+				F103B97D1C13513100D2B842 /* ViewControllerExtension.swift in Sources */,
 				F1F634E01C1179DC00A7E67C /* UdacityConstantsExtension.swift in Sources */,
 				F1F634E41C118C0C00A7E67C /* UdacityConvenienceExtension.swift in Sources */,
 				F10540C81C12D35600F842F3 /* ParseConstantsExtension.swift in Sources */,
+				F103B9771C12F0FF00D2B842 /* MapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -9,12 +9,31 @@
 import Foundation
 import UIKit
 
-class TableViewController: UITableViewController {
+class TableViewController: UIViewController {
+    
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.view.bringSubviewToFront(loadingIndicator)
+        
+        tableView.delegate = self
+        tableView.dataSource = self
         loadStudentLocations()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        hideLoadingIndicator()
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        hideLoadingIndicator()
     }
     
     @IBAction func refreshButtonTouchUp(sender: AnyObject) {
@@ -30,17 +49,21 @@ class TableViewController: UITableViewController {
     }
     
     func loadStudentLocations() {
-        ParseClient.sharedInstance().getStudentLocations { error -> Void in
+        showLoadingIndicator()
+        ParseClient.sharedInstance().getStudentLocations { success, error -> Void in
+            print("SUCCESS: \(success)")
+            print("Locations Count: \(ParseClient.sharedInstance().ParseStudentLocations.count)")
             dispatch_async(dispatch_get_main_queue()) {
+                self.hideLoadingIndicator()
                 self.tableView.reloadData()
             }
         }
     }
 }
 
-extension TableViewController {
+extension TableViewController: UITableViewDelegate, UITableViewDataSource {
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         /* Get cell type */
         let cellReuseIdentifier = "LocationCell"
@@ -56,7 +79,7 @@ extension TableViewController {
         return cell
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return ParseClient.sharedInstance().ParseStudentLocations.count
     }
     
@@ -67,4 +90,19 @@ extension TableViewController {
 //        controller.movie = movies[indexPath.row]
 //        self.navigationController!.pushViewController(controller, animated: true)
 //    }
+}
+
+extension TableViewController {
+    
+    
+    
+    // MARK: Show and Hide loading activity indicator
+    func showLoadingIndicator() {
+        loadingIndicator.hidden = false
+        loadingIndicator.startAnimating()
+    }
+    func hideLoadingIndicator() {
+        loadingIndicator.hidden = true
+        loadingIndicator.stopAnimating()
+    }
 }

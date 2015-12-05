@@ -15,6 +15,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
     @IBOutlet weak var loginButton: FBSDKLoginButton!
     @IBOutlet weak var emailTextField: CustomTextField!
     @IBOutlet weak var passwordTextField: CustomTextField!
+    @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
     
     var tapRecognizer: UITapGestureRecognizer? = nil
     
@@ -39,13 +40,15 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.addKeyboardDismissRecognizer()
+        hideLoadingIndicator()
+        addKeyboardDismissRecognizer()
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         
-        self.removeKeyboardDismissRecognizer()
+        hideLoadingIndicator()
+        removeKeyboardDismissRecognizer()
     }
     
     
@@ -59,6 +62,8 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
             promtAlert("Please provide your email and password")
             return
         }
+        
+        showLoadingIndicator()
         
         // Request a new session using Udacity API with Email and Password
         UdacityClient.sharedInstance().postNewSession(emailTextField.text!, password: passwordTextField.text!) { success, errorString -> Void in
@@ -76,6 +81,8 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
             promtAlert("Your request has been cancelled")
             return
         }
+        
+        showLoadingIndicator()
         
         // Request a new session using Udacity API with the facebook token,
         UdacityClient.sharedInstance().postNewSessionWithFacebook(result.token.tokenString) { success, errorString -> Void in
@@ -96,12 +103,14 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
                 message = errorString
             }
             dispatch_async(dispatch_get_main_queue()) {
+                self.hideLoadingIndicator()
                 self.promtAlert(message)
             }
             return
         }
         
         dispatch_async(dispatch_get_main_queue()) {
+            //self.hideLoadingIndicator()
             self.performSegueWithIdentifier("OpenApp", sender: self)
         }
     }
