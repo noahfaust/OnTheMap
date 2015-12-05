@@ -8,8 +8,15 @@
 
 import Foundation
 
-class GenericClient {
+class GenericClient: NSObject {
     
+    /* Shared session */
+    var session: NSURLSession
+    
+    override init() {
+        session = NSURLSession.sharedSession()
+        super.init()
+    }
     
     /* Helper: Given raw JSON, return a usable Foundation object */
     func parseJSONWithCompletionHandler(data: NSData, completionHandler: (result: AnyObject!, error: NSError?) -> Void) {
@@ -25,6 +32,27 @@ class GenericClient {
         }
         
         completionHandler(result: parsedResult, error: nil)
+    }
+    
+    /* Helper function: Given a dictionary of parameters, convert to a string for a url */
+    func escapedParameters(parameters: [String : AnyObject]) -> String {
+        
+        var urlVars = [String]()
+        
+        for (key, value) in parameters {
+            
+            /* Make sure that it is a string value */
+            let stringValue = "\(value)"
+            
+            /* Escape it */
+            let escapedValue = stringValue.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())
+            
+            /* Append it */
+            urlVars += [key + "=" + "\(escapedValue!)"]
+            
+        }
+        
+        return (!urlVars.isEmpty ? "?" : "") + urlVars.joinWithSeparator("&")
     }
     
     

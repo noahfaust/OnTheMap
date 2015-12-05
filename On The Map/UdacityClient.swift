@@ -10,17 +10,9 @@ import Foundation
 
 class UdacityClient: GenericClient {
     
-    /* Shared session */
-    var session: NSURLSession
-    
     /* Authentication Info */
     var sessionId : String? = nil
     var userId : String? = nil
-    
-    override init() {
-        session = NSURLSession.sharedSession()
-        super.init()
-    }
     
     func taskForPOSTMethod(method: String, jsonBody: [String:AnyObject], completionHandler: (result: AnyObject?, error: NSError?) -> Void) -> NSURLSessionDataTask {
         

@@ -4,6 +4,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="Roboto-Medium.ttf">
@@ -142,27 +143,7 @@
             </objects>
             <point key="canvasLocation" x="348" y="370"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="DRR-cf-jXt">
-            <objects>
-                <viewController id="v4a-wc-dd8" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="dgL-bO-SWn"/>
-                        <viewControllerLayoutGuide type="bottom" id="x48-V3-7VA"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="EO1-0x-kFL">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <animations/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="01g-hW-tNu"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="2u6-Jr-Oji" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2722" y="795"/>
-        </scene>
-        <!--View Controller-->
+        <!--On The Map-->
         <scene sceneID="17j-tL-Ikd">
             <objects>
                 <viewController id="DaE-K5-22V" sceneMemberID="viewController">
@@ -176,11 +157,85 @@
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="3tc-IQ-6rF"/>
+                    <navigationItem key="navigationItem" title="On The Map" id="3tc-IQ-6rF">
+                        <barButtonItem key="leftBarButtonItem" title="Logout" id="oyc-VK-omF"/>
+                        <rightBarButtonItems>
+                            <barButtonItem systemItem="refresh" id="NNj-GN-O5r"/>
+                            <barButtonItem image="pin" id="Opo-wk-iso"/>
+                        </rightBarButtonItems>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1dT-TW-4Wg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2722" y="102"/>
+        </scene>
+        <!--On The Map-->
+        <scene sceneID="vMF-jf-0hS">
+            <objects>
+                <tableViewController id="9Ag-wK-soO" customClass="TableViewController" customModule="On_The_Map" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="udq-RV-wkn">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="LocationCell" textLabel="ZS5-DG-vQ0" detailTextLabel="T8c-a2-bIH" style="IBUITableViewCellStyleSubtitle" id="z54-cg-6R2">
+                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="z54-cg-6R2" id="SF5-HN-qDo">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ZS5-DG-vQ0">
+                                            <rect key="frame" x="15" y="6" width="31.5" height="19.5"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <animations/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="T8c-a2-bIH">
+                                            <rect key="frame" x="15" y="25.5" width="40.5" height="13.5"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <animations/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <animations/>
+                                </tableViewCellContentView>
+                                <animations/>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="9Ag-wK-soO" id="fmw-E8-Tnz"/>
+                            <outlet property="delegate" destination="9Ag-wK-soO" id="5q5-XC-lEx"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="On The Map" id="Pmg-OO-jhQ">
+                        <barButtonItem key="leftBarButtonItem" title="Logout" id="vNj-nr-Z71">
+                            <connections>
+                                <action selector="logoutButtonTouchUp:" destination="9Ag-wK-soO" id="mtZ-fK-Vc7"/>
+                            </connections>
+                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem systemItem="refresh" id="AbN-a5-oiW">
+                                <connections>
+                                    <action selector="refreshButtonTouchUp:" destination="9Ag-wK-soO" id="pOj-iP-6vi"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem image="pin" id="cEX-R4-wG6">
+                                <connections>
+                                    <action selector="pinButtonTouchUp:" destination="9Ag-wK-soO" id="f0I-lX-02j"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uR9-w7-FZB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2722" y="795"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="BTL-od-a7v">
@@ -234,7 +289,7 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="v4a-wc-dd8" kind="relationship" relationship="rootViewController" id="jmS-Ju-KaW"/>
+                        <segue destination="9Ag-wK-soO" kind="relationship" relationship="rootViewController" id="0Hu-Jx-NZu"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="STu-YS-l1l" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -245,6 +300,7 @@
     <resources>
         <image name="list" width="32" height="32"/>
         <image name="map" width="32" height="32"/>
+        <image name="pin" width="32" height="32"/>
         <image name="udacity" width="256" height="256"/>
     </resources>
 </document>

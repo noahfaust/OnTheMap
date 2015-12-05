@@ -11,9 +11,11 @@ extension UdacityClient {
     struct Constants {
         
         // MARK: URLs
-        static let BaseURLSecure : String = "https://www.udacity.com/api/"
+        static let BaseURLSecure = "https://www.udacity.com/api/"
+    
     }
     
+    // MARK: Methods
     struct Methods {
         static let Session = "session"
     }

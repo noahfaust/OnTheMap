@@ -10,7 +10,7 @@ import UIKit
 import FBSDKLoginKit
 import SafariServices
 
-class LoginViewController: UIViewController, FBSDKLoginButtonDelegate, UITextFieldDelegate {
+class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
 
     @IBOutlet weak var loginButton: FBSDKLoginButton!
     @IBOutlet weak var emailTextField: CustomTextField!

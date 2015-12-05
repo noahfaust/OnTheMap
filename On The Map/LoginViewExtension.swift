@@ -6,7 +6,7 @@
 //  Copyright © 2015 Agito Cloud. All rights reserved.
 //
 
-extension LoginViewController {
+extension LoginViewController: UITextFieldDelegate {
     
     /* Extension with UI merthods: Tap Recognition and Text field delegation */
     
