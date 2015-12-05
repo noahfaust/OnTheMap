@@ -57,6 +57,7 @@ extension UdacityClient {
                 return
             }
             
+            /* 6. Use the data! */
             UdacityClient.sharedInstance().sessionId = sessionId
             
             guard let userInfo = result[JSONResponseKeys.Account] as? [String: AnyObject] else {
@@ -71,6 +72,7 @@ extension UdacityClient {
                 return
             }
             
+            /* 6. Use the data! */
             UdacityClient.sharedInstance().userId = userId
             
             completionHandler(success: true, errorString: nil)

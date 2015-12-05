@@ -11,6 +11,8 @@ import UIKit
 
 class CustomTextField: UITextField {
     
+    @IBOutlet weak var nextTextField: UITextField?
+    
     let padding = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5);
     
     override func textRectForBounds(bounds: CGRect) -> CGRect {
