@@ -6,8 +6,6 @@
 //  Copyright © 2015 Agito Cloud. All rights reserved.
 //
 
-import Foundation
-
 extension UdacityClient {
     
     struct Constants {

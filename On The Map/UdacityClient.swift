@@ -51,6 +51,7 @@ class UdacityClient: GenericClient {
             if let statusCode = (response as? NSHTTPURLResponse)?.statusCode {
                 if statusCode < 200 || statusCode > 299 {
                     if statusCode == 403 {
+                        // Udacity returns a 403 error in case login and password are invalid
                         print("Login error: Invalid Email or Password")
                         let userInfo = [NSLocalizedDescriptionKey : "Invalid Email or Password"]
                         completionHandler(result: nil, error: NSError(domain: "taskForPOSTMethod", code: 1, userInfo: userInfo))
@@ -71,10 +72,10 @@ class UdacityClient: GenericClient {
                 return
             }
             
-            let newData = data.subdataWithRange(NSMakeRange(5, data.length - 5)) /* subset response data! */
-            print(NSString(data: newData, encoding: NSUTF8StringEncoding))
+            // Udacity requires to remove the 5 first characters of the data
+            let newData = data.subdataWithRange(NSMakeRange(5, data.length - 5))
             
-            /* 5. Parse the data - Part 1 */
+            /* 5. Parse the data - Part 1: convert the JSON in a Foundation Object */
             self.parseJSONWithCompletionHandler(newData, completionHandler: completionHandler)
         }
         

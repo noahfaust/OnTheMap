@@ -135,7 +135,7 @@
                         <outlet property="emailTextField" destination="1xW-2K-bSK" id="RDk-eX-7TA"/>
                         <outlet property="loginButton" destination="yod-gS-c9z" id="k1P-Nr-RGP"/>
                         <outlet property="passwordTextField" destination="Ow9-b4-OUf" id="o9P-Au-MkL"/>
-                        <segue destination="zNH-70-reA" kind="presentation" identifier="LoginValidated" id="DnA-Ju-Q50"/>
+                        <segue destination="zNH-70-reA" kind="presentation" identifier="OpenApp" id="DnA-Ju-Q50"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

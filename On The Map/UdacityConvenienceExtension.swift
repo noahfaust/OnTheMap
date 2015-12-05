@@ -6,8 +6,6 @@
 //  Copyright © 2015 Agito Cloud. All rights reserved.
 //
 
-import Foundation
-
 extension UdacityClient {
     
     func postNewSession(username: String, password: String, completionHandler: (success: Bool, errorString: String?) -> Void) {

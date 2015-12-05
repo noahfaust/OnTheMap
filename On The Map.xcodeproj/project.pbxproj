@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F10540C41C12CCA600F842F3 /* LoginViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10540C31C12CCA600F842F3 /* LoginViewExtension.swift */; };
 		F1F634961C0F019D00A7E67C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F634951C0F019D00A7E67C /* AppDelegate.swift */; };
 		F1F634981C0F019D00A7E67C /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F634971C0F019D00A7E67C /* LoginViewController.swift */; };
 		F1F6349B1C0F019D00A7E67C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F1F634991C0F019D00A7E67C /* Main.storyboard */; };
@@ -41,6 +42,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F10540C31C12CCA600F842F3 /* LoginViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewExtension.swift; sourceTree = "<group>"; };
 		F1F634921C0F019D00A7E67C /* On The Map.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "On The Map.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F1F634951C0F019D00A7E67C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F1F634971C0F019D00A7E67C /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -163,6 +165,7 @@
 			isa = PBXGroup;
 			children = (
 				F1F634971C0F019D00A7E67C /* LoginViewController.swift */,
+				F10540C31C12CCA600F842F3 /* LoginViewExtension.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -363,6 +366,7 @@
 				F1F634E21C11894900A7E67C /* GenericClient.swift in Sources */,
 				F1F634981C0F019D00A7E67C /* LoginViewController.swift in Sources */,
 				F1F634961C0F019D00A7E67C /* AppDelegate.swift in Sources */,
+				F10540C41C12CCA600F842F3 /* LoginViewExtension.swift in Sources */,
 				F1F634DE1C11788400A7E67C /* UdacityClient.swift in Sources */,
 				F1F634E01C1179DC00A7E67C /* UdacityConstantsExtension.swift in Sources */,
 				F1F634E41C118C0C00A7E67C /* UdacityConvenienceExtension.swift in Sources */,
