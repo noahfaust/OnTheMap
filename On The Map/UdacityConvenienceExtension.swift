@@ -18,7 +18,7 @@ extension UdacityClient {
         
         taskForPOSTMethod(method, jsonBody: jsonBody) { JSONResult, error in
             
-            self.parseUdacitySessionResult(JSONResult, error: error, completionHandler: completionHandler)
+            self.parseUdacityNewSessionResult(JSONResult, error: error, completionHandler: completionHandler)
         }
     }
     
@@ -32,13 +32,22 @@ extension UdacityClient {
         
         taskForPOSTMethod(method, jsonBody: jsonBody) { JSONResult, error in
 
-            self.parseUdacitySessionResult(JSONResult, error: error, completionHandler: completionHandler)
+            self.parseUdacityNewSessionResult(JSONResult, error: error, completionHandler: completionHandler)
             
         }
     }
     
     // Helper: Parse the foundation object got from the response JSON */
-    func parseUdacitySessionResult(result: AnyObject?, error: NSError?, completionHandler: (success: Bool, errorString: String?) -> Void) {
+    func parseUdacityNewSessionResult(result: AnyObject?, error: ClientError?, completionHandler: (success: Bool, errorString: String?) -> Void) {
+        
+        guard error == nil else {
+            if error == .InvalidCredentials {
+                completionHandler(success: false, errorString: "Invalid Email or Password")
+            } else {
+                completionHandler(success: false, errorString: "Login Failed")
+            }
+            return
+        }
         
         /* 5. Parse the data - Part 2 */
         if let result = result {
@@ -75,16 +84,19 @@ extension UdacityClient {
             
             completionHandler(success: true, errorString: nil)
             
-        } else {
+        }
+    }
+    
+    func deleteSession() {
+        
+        /* 1. Specify parameters (none), method, and HTTP body */
+        let method : String = Methods.Session
+        
+        taskForDELETEMethod(method) { JSONResult, error in
             
-            if let error = error {
-                if let errorString = error.userInfo[NSLocalizedDescriptionKey] as? String {
-                    completionHandler(success: false, errorString: errorString)
-                    return
-                }
-            }
-            print("Login failed with error: \(error)")
-            completionHandler(success: false, errorString: "Login Failed")
+            // Set SessionId and UserId to nil whatever the method suceeded or not
+            UdacityClient.sharedInstance().sessionId = nil
+            UdacityClient.sharedInstance().userId = nil
         }
     }
     

@@ -21,7 +21,6 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
         
         loginButton.delegate = self
         emailTextField.delegate = self
@@ -39,6 +38,8 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
+        FacebookHelper.logout()
         
         hideLoadingIndicator()
         addKeyboardDismissRecognizer()

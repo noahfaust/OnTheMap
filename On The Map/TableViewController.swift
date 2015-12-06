@@ -17,17 +17,19 @@ class TableViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.bringSubviewToFront(loadingIndicator)
-        
         tableView.delegate = self
         tableView.dataSource = self
-        loadStudentLocations()
+        
+        if ParseClient.sharedInstance().ParseStudentLocations.isEmpty {
+            loadStudentLocations()
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
         hideLoadingIndicator()
+        tableView.reloadData()
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -45,14 +47,17 @@ class TableViewController: UIViewController {
     }
     
     @IBAction func logoutButtonTouchUp(sender: AnyObject) {
-        // TODO:
+        
+        parentViewController?.dismissViewControllerAnimated(true, completion: nil)
+        
+        FacebookHelper.logout()
+        
+        UdacityClient.sharedInstance().deleteSession()
     }
     
     func loadStudentLocations() {
         showLoadingIndicator()
         ParseClient.sharedInstance().getStudentLocations { success, error -> Void in
-            print("SUCCESS: \(success)")
-            print("Locations Count: \(ParseClient.sharedInstance().ParseStudentLocations.count)")
             dispatch_async(dispatch_get_main_queue()) {
                 self.hideLoadingIndicator()
                 self.tableView.reloadData()
@@ -94,10 +99,9 @@ extension TableViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension TableViewController {
     
-    
-    
     // MARK: Show and Hide loading activity indicator
     func showLoadingIndicator() {
+        view.bringSubviewToFront(loadingIndicator)
         loadingIndicator.hidden = false
         loadingIndicator.startAnimating()
     }

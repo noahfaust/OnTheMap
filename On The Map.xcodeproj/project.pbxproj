@@ -15,6 +15,7 @@
 		F10540C81C12D35600F842F3 /* ParseConstantsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10540C71C12D35600F842F3 /* ParseConstantsExtension.swift */; };
 		F10540CA1C12DB4C00F842F3 /* ParseConvenienceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10540C91C12DB4C00F842F3 /* ParseConvenienceExtension.swift */; };
 		F10540CC1C12DC0500F842F3 /* ParseStudentInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10540CB1C12DC0500F842F3 /* ParseStudentInformation.swift */; };
+		F1A6F6801C13E2E6005D7DD7 /* FacebookHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A6F67F1C13E2E6005D7DD7 /* FacebookHelper.swift */; };
 		F1F634961C0F019D00A7E67C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F634951C0F019D00A7E67C /* AppDelegate.swift */; };
 		F1F634981C0F019D00A7E67C /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F634971C0F019D00A7E67C /* LoginViewController.swift */; };
 		F1F6349B1C0F019D00A7E67C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F1F634991C0F019D00A7E67C /* Main.storyboard */; };
@@ -57,17 +58,18 @@
 		F10540C71C12D35600F842F3 /* ParseConstantsExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseConstantsExtension.swift; sourceTree = "<group>"; };
 		F10540C91C12DB4C00F842F3 /* ParseConvenienceExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseConvenienceExtension.swift; sourceTree = "<group>"; };
 		F10540CB1C12DC0500F842F3 /* ParseStudentInformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseStudentInformation.swift; sourceTree = "<group>"; };
-		F1F634921C0F019D00A7E67C /* On The Map.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = "On The Map.app"; path = "/Users/alexandregonzalo/Dropbox/Udacity/On The Map/build/Debug-iphoneos/On The Map.app"; sourceTree = "<absolute>"; };
+		F1A6F67C1C135E5C005D7DD7 /* On The Map.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = "On The Map.app"; path = "/Users/alexandregonzalo/Dropbox/Udacity/On The Map/build/Debug-iphoneos/On The Map.app"; sourceTree = "<absolute>"; };
+		F1A6F67D1C135E5C005D7DD7 /* On The MapTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = "On The MapTests.xctest"; path = "/Users/alexandregonzalo/Dropbox/Udacity/On The Map/build/Debug-iphoneos/On The MapTests.xctest"; sourceTree = "<absolute>"; };
+		F1A6F67E1C135E5C005D7DD7 /* On The MapUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = "On The MapUITests.xctest"; path = "/Users/alexandregonzalo/Dropbox/Udacity/On The Map/build/Debug-iphoneos/On The MapUITests.xctest"; sourceTree = "<absolute>"; };
+		F1A6F67F1C13E2E6005D7DD7 /* FacebookHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FacebookHelper.swift; sourceTree = "<group>"; };
 		F1F634951C0F019D00A7E67C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F1F634971C0F019D00A7E67C /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		F1F6349A1C0F019D00A7E67C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		F1F6349C1C0F019D00A7E67C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F1F6349F1C0F019D00A7E67C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F1F634A11C0F019D00A7E67C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F1F634A61C0F019D00A7E67C /* On The MapTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = "On The MapTests.xctest"; path = "/Users/alexandregonzalo/Dropbox/Udacity/On The Map/build/Debug-iphoneos/On The MapTests.xctest"; sourceTree = "<absolute>"; };
 		F1F634AA1C0F019D00A7E67C /* On_The_MapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = On_The_MapTests.swift; sourceTree = "<group>"; };
 		F1F634AC1C0F019D00A7E67C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F1F634B11C0F019D00A7E67C /* On The MapUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = "On The MapUITests.xctest"; path = "/Users/alexandregonzalo/Dropbox/Udacity/On The Map/build/Debug-iphoneos/On The MapUITests.xctest"; sourceTree = "<absolute>"; };
 		F1F634B51C0F019D00A7E67C /* On_The_MapUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = On_The_MapUITests.swift; sourceTree = "<group>"; };
 		F1F634B71C0F019D00A7E67C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F1F634C31C0F0CD100A7E67C /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Medium.ttf"; sourceTree = "<group>"; };
@@ -198,18 +200,19 @@
 			isa = PBXGroup;
 			children = (
 				F1F634E11C11894900A7E67C /* GenericClient.swift */,
-				F1F634DA1C10934800A7E67C /* FacebookClient */,
+				F1F634DA1C10934800A7E67C /* FacebookHelper */,
 				F1F634DB1C10935400A7E67C /* ParseClient */,
 				F1F634DC1C10936000A7E67C /* UdacityClient */,
 			);
 			name = Clients;
 			sourceTree = "<group>";
 		};
-		F1F634DA1C10934800A7E67C /* FacebookClient */ = {
+		F1F634DA1C10934800A7E67C /* FacebookHelper */ = {
 			isa = PBXGroup;
 			children = (
+				F1A6F67F1C13E2E6005D7DD7 /* FacebookHelper.swift */,
 			);
-			name = FacebookClient;
+			name = FacebookHelper;
 			sourceTree = "<group>";
 		};
 		F1F634DB1C10935400A7E67C /* ParseClient */ = {
@@ -258,7 +261,7 @@
 			);
 			name = "On The Map";
 			productName = "On The Map";
-			productReference = F1F634921C0F019D00A7E67C /* On The Map.app */;
+			productReference = F1A6F67C1C135E5C005D7DD7 /* On The Map.app */;
 			productType = "com.apple.product-type.application";
 		};
 		F1F634A51C0F019D00A7E67C /* On The MapTests */ = {
@@ -276,7 +279,7 @@
 			);
 			name = "On The MapTests";
 			productName = "On The MapTests";
-			productReference = F1F634A61C0F019D00A7E67C /* On The MapTests.xctest */;
+			productReference = F1A6F67D1C135E5C005D7DD7 /* On The MapTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		F1F634B01C0F019D00A7E67C /* On The MapUITests */ = {
@@ -294,7 +297,7 @@
 			);
 			name = "On The MapUITests";
 			productName = "On The MapUITests";
-			productReference = F1F634B11C0F019D00A7E67C /* On The MapUITests.xctest */;
+			productReference = F1A6F67E1C135E5C005D7DD7 /* On The MapUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -381,6 +384,7 @@
 				F10540C61C12D33700F842F3 /* ParceClient.swift in Sources */,
 				F10540C41C12CCA600F842F3 /* LoginViewExtension.swift in Sources */,
 				F1F634DE1C11788400A7E67C /* UdacityClient.swift in Sources */,
+				F1A6F6801C13E2E6005D7DD7 /* FacebookHelper.swift in Sources */,
 				F10540CA1C12DB4C00F842F3 /* ParseConvenienceExtension.swift in Sources */,
 				F103B97D1C13513100D2B842 /* ViewControllerExtension.swift in Sources */,
 				F1F634E01C1179DC00A7E67C /* UdacityConstantsExtension.swift in Sources */,

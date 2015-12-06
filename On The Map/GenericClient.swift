@@ -19,7 +19,7 @@ class GenericClient: NSObject {
     }
     
     /* Helper: Given raw JSON, return a usable Foundation object */
-    func parseJSONWithCompletionHandler(data: NSData, completionHandler: (result: AnyObject!, error: NSError?) -> Void) {
+    func parseJSONWithCompletionHandler(data: NSData, completionHandler: (result: AnyObject!, error: ClientError?) -> Void) {
         
         /* 5. Parse the data - Part 1 */
         var parsedResult: AnyObject!
@@ -27,8 +27,7 @@ class GenericClient: NSObject {
             parsedResult = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
         } catch {
             print("Could not parse the data as JSON: '\(data)'")
-            let userInfo = [NSLocalizedDescriptionKey : "Could not parse the data as JSON: '\(data)'"]
-            completionHandler(result: nil, error: NSError(domain: "parseJSONWithCompletionHandler", code: 1, userInfo: userInfo))
+            completionHandler(result: nil, error: .JSONNotConverted)
         }
         
         completionHandler(result: parsedResult, error: nil)
@@ -55,5 +54,17 @@ class GenericClient: NSObject {
         return (!urlVars.isEmpty ? "?" : "") + urlVars.joinWithSeparator("&")
     }
     
+}
+
+// MARK: Client Error Types
+extension GenericClient {
     
+    enum ClientError: ErrorType {
+        case ErrorReturned
+        case InvalidResponse
+        case InvalidCredentials
+        case InvalidData
+        case JSONNotConverted
+        case JSONNotParsed
+    }
 }

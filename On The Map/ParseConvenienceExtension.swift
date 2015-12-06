@@ -8,7 +8,7 @@
 
 extension ParseClient {
     
-    func getStudentLocations(completionHandler: (success: Bool, error: NSError?) -> Void) {
+    func getStudentLocations(completionHandler: (success: Bool, errorString: String?) -> Void) {
         
         /* 1. Specify parameters, method (if has {key}), and HTTP body (if POST) */
         let parameters: [String : AnyObject] = [ParameterKeys.Limit: 100, ParameterKeys.Order: "-\(JSONResponseKeys.UpdatedAt)"]
@@ -18,18 +18,17 @@ extension ParseClient {
         taskForGETMethod(method, parameters: parameters) { JSONResult, error in
             
             /* 3. Send the desired value(s) to completion handler */
-            if let error = error {
-                completionHandler(success: false, error: error)
-            } else {
+            guard error == nil else {
+                completionHandler(success: false, errorString: "The student locations couldn't be loaded")
+                return
+            }
+            
+            if let results = JSONResult![JSONResponseKeys.Results] as? [[String : AnyObject]] {
                 
-                if let results = JSONResult[JSONResponseKeys.Results] as? [[String : AnyObject]] {
-                    //print("JSONResult: \(JSONResult)")
-                    
-                    self.ParseStudentLocations = ParseStudentInformation.studentinfoFromResults(results)
-                    completionHandler(success: true, error: nil)
-                } else {
-                    completionHandler(success: false, error: NSError(domain: "getFavoriteMovies parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse getFavoriteMovies"]))
-                }
+                self.ParseStudentLocations = ParseStudentInformation.studentinfoFromResults(results)
+                completionHandler(success: true, errorString: nil)
+            } else {
+                completionHandler(success: false, errorString: "The student locations couldn't be loaded")
             }
         }
     }

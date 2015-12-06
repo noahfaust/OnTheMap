@@ -13,7 +13,7 @@ class ParseClient: GenericClient {
     /* Student Locations */
     var ParseStudentLocations: [ParseStudentInformation] = [ParseStudentInformation]()
     
-    func taskForGETMethod(method: String, parameters: [String : AnyObject], completionHandler: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
+    func taskForGETMethod(method: String, parameters: [String : AnyObject], completionHandler: (result: AnyObject?, error: ClientError?) -> Void) -> NSURLSessionDataTask {
         
         /* 1. Set the parameters */
         //var mutableParameters = parameters
@@ -28,29 +28,32 @@ class ParseClient: GenericClient {
         request.addValue(Constants.ApiKey, forHTTPHeaderField: httpHeaderFields.ApiKey)
         
         /* 4. Make the request */
-        let task = session.dataTaskWithRequest(request) { (data, response, error) in
+        let task = session.dataTaskWithRequest(request) { data, response, error in
             
             /* GUARD: Was there an error? */
             guard (error == nil) else {
                 print("There was an error with your request: \(error)")
+                completionHandler(result: nil, error: .ErrorReturned)
                 return
             }
             
             /* GUARD: Did we get a successful 2XX response? */
             guard let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode >= 200 && statusCode <= 299 else {
                 if let response = response as? NSHTTPURLResponse {
-                    print("Your request returned an invalid response! Status code: \(response.statusCode)!")
+                    print("Your request returned an invalid response! Status code: \(response.statusCode)")
                 } else if let response = response {
-                    print("Your request returned an invalid response! Response: \(response)!")
+                    print("Your request returned an invalid response! Response: \(response)")
                 } else {
-                    print("Your request returned an invalid response!")
+                    print("Your request returned an invalid response")
                 }
+                completionHandler(result: nil, error: .InvalidResponse)
                 return
             }
             
             /* GUARD: Was there any data returned? */
             guard let data = data else {
-                print("No data was returned by the request!")
+                print("No data was returned by the request")
+                completionHandler(result: nil, error: .InvalidData)
                 return
             }
             
