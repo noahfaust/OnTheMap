@@ -8,8 +8,9 @@
 
 import Foundation
 import UIKit
+import SafariServices
 
-class TableViewController: UIViewController {
+class TableViewController: StudentLocationsViewController {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
@@ -58,9 +59,16 @@ class TableViewController: UIViewController {
     func loadStudentLocations() {
         showLoadingIndicator()
         ParseClient.sharedInstance().getStudentLocations { success, error -> Void in
-            dispatch_async(dispatch_get_main_queue()) {
-                self.hideLoadingIndicator()
-                self.tableView.reloadData()
+            if success {
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.hideLoadingIndicator()
+                    self.tableView.reloadData()
+                }
+            } else {
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.hideLoadingIndicator()
+                    self.promtAlert("The students locations could't be loaded")
+                }
             }
         }
     }
@@ -88,13 +96,14 @@ extension TableViewController: UITableViewDelegate, UITableViewDataSource {
         return ParseClient.sharedInstance().ParseStudentLocations.count
     }
     
-//    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-//        
-//        /* Push the movie detail view */
-//        let controller = self.storyboard!.instantiateViewControllerWithIdentifier("MovieDetailViewController") as! MovieDetailViewController
-//        controller.movie = movies[indexPath.row]
-//        self.navigationController!.pushViewController(controller, animated: true)
-//    }
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+
+        let location = ParseClient.sharedInstance().ParseStudentLocations[indexPath.row]
+        let svc = SFSafariViewController(URL: NSURL(string: location.MediaURL)!)
+        self.presentViewController(svc, animated: true, completion: nil)
+    
+    }
 }
 
 extension TableViewController {

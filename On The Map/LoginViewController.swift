@@ -16,11 +16,15 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
     @IBOutlet weak var emailTextField: CustomTextField!
     @IBOutlet weak var passwordTextField: CustomTextField!
     @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var loginLabel: UILabel!
     
     var tapRecognizer: UITapGestureRecognizer? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        print("LoginLabel: \(loginLabel.font.fontName)")
+        print("EmailField: \(emailTextField.font!.fontName)")
         
         loginButton.delegate = self
         emailTextField.delegate = self
@@ -120,13 +124,6 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
     @IBAction func signUpButtonTouchUp(sender: AnyObject) {
         let svc = SFSafariViewController(URL: NSURL(string: "https://www.udacity.com/account/auth#!/signup")!)
         self.presentViewController(svc, animated: true, completion: nil)
-    }
-    
-    // Helper: to display errors to the user, prompt alert with a given message
-    func promtAlert(message: String) {
-        let alert = UIAlertController(title: "", message: message, preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "Dismiss", style:.Default, handler: nil))
-        self.presentViewController(alert, animated: true, completion: nil)
     }
 
 }
