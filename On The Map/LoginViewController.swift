@@ -16,7 +16,6 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
     @IBOutlet weak var emailTextField: LoginTextField!
     @IBOutlet weak var passwordTextField: LoginTextField!
     @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
-    @IBOutlet weak var loginLabel: UILabel!
     
     var tapRecognizer: UITapGestureRecognizer? = nil
     

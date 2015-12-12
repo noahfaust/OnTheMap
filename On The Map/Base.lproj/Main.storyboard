@@ -136,7 +136,6 @@
                     </view>
                     <navigationItem key="navigationItem" id="Wg4-qG-zBI"/>
                     <connections>
-                        <outlet property="LoginLabel" destination="l5l-Zb-wds" id="Ydt-UK-XsH"/>
                         <outlet property="emailTextField" destination="1xW-2K-bSK" id="RDk-eX-7TA"/>
                         <outlet property="loadingIndicator" destination="JPc-Xm-C02" id="ybU-JV-jWB"/>
                         <outlet property="loginButton" destination="yod-gS-c9z" id="k1P-Nr-RGP"/>
@@ -344,10 +343,6 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d6P-bf-KVL">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="435"/>
                                 <subviews>
-                                    <view alpha="0.25" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZNi-DP-es4">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="435"/>
-                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                    </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dmh-fl-FBY">
                                         <rect key="frame" x="0.0" y="147" width="600" height="141"/>
                                         <subviews>
@@ -384,13 +379,10 @@
                                         </constraints>
                                     </view>
                                 </subviews>
+                                <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="ZNi-DP-es4" secondAttribute="trailing" id="1di-Fb-qDa"/>
                                     <constraint firstItem="Dmh-fl-FBY" firstAttribute="leading" secondItem="d6P-bf-KVL" secondAttribute="leading" id="3cQ-hh-Oxc"/>
-                                    <constraint firstItem="ZNi-DP-es4" firstAttribute="top" secondItem="d6P-bf-KVL" secondAttribute="top" id="EUe-85-d9x"/>
-                                    <constraint firstItem="ZNi-DP-es4" firstAttribute="leading" secondItem="d6P-bf-KVL" secondAttribute="leading" id="Lz1-Zi-YuW"/>
-                                    <constraint firstAttribute="bottom" secondItem="ZNi-DP-es4" secondAttribute="bottom" id="g78-LP-TuK"/>
                                     <constraint firstAttribute="trailing" secondItem="Dmh-fl-FBY" secondAttribute="trailing" id="hBg-M9-ol6"/>
                                     <constraint firstItem="Dmh-fl-FBY" firstAttribute="centerY" secondItem="d6P-bf-KVL" secondAttribute="centerY" id="pra-fb-gGe"/>
                                 </constraints>
@@ -430,7 +422,7 @@
                                 </constraints>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                <textInputTraits key="textInputTraits" returnKeyType="search"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="search"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i6h-lO-bdf">
                                 <rect key="frame" x="514" y="40" width="46" height="30"/>
@@ -443,7 +435,7 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.2399670559" green="0.47057841810000001" blue="0.60384615379999995" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="d6P-bf-KVL" firstAttribute="leading" secondItem="tEQ-ly-ay8" secondAttribute="leadingMargin" constant="-20" id="0Cm-GU-ada"/>
                             <constraint firstAttribute="trailingMargin" secondItem="3QV-Sy-5Ff" secondAttribute="trailing" constant="-20" id="3Mf-Xf-Igi"/>
@@ -465,11 +457,7 @@
                     </view>
                     <connections>
                         <outlet property="bottomButton" destination="uMn-E5-yxc" id="6LP-PR-rSn"/>
-                        <outlet property="emptyView" destination="ZNi-DP-es4" id="E09-MA-3uv"/>
                         <outlet property="inputTextBox" destination="iCw-k9-OS4" id="rvN-Ti-RAr"/>
-                        <outlet property="label1" destination="rgz-Mj-86c" id="Jq6-pc-rxs"/>
-                        <outlet property="label2" destination="gbs-QG-RAp" id="28n-T2-dq5"/>
-                        <outlet property="label3" destination="0HY-A5-b2G" id="C8x-RF-6cl"/>
                         <outlet property="mapView" destination="cb2-xa-C0w" id="7JV-g6-kns"/>
                         <outlet property="titleView" destination="d6P-bf-KVL" id="oyD-q9-kBD"/>
                     </connections>

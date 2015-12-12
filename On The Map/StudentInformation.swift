@@ -8,7 +8,7 @@
 
 import MapKit
 
-struct StudentInformation {
+class StudentInformation {
     
     // MARK: Properties
     
@@ -40,7 +40,6 @@ struct StudentInformation {
         }
         mapString = dictionary[ParseClient.JSONResponseKeys.MapString] as? String
         mediaURL = dictionary[ParseClient.JSONResponseKeys.MediaURL] as? String
-        objectId = dictionary[ParseClient.JSONResponseKeys.ObjectId] as? String
         latitude = dictionary[ParseClient.JSONResponseKeys.Latitude] as? Double
         longitude = dictionary[ParseClient.JSONResponseKeys.Longitude] as? Double
     }
@@ -86,6 +85,20 @@ struct StudentInformation {
             annotation.subtitle = mediaURL
         }
         return annotation
+    }
+    
+//    func setMediaURL(mediaURL: String) {
+//        self.mediaURL = mediaURL
+//    }
+    
+    func setLocation(location: CLLocation, mapString: String) {
+        //self.latitude = latitude
+        //self.longitude = longitude
+        self.latitude = location.coordinate.latitude
+        self.longitude = location.coordinate.longitude
+        self.mapString = mapString
+        
+        print("Latitude: \(self.latitude) Longitude: \(self.longitude)")
     }
     
     /* Helper: Given an array of dictionaries, convert them to an array of TMDBMovie objects */
