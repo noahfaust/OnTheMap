@@ -15,7 +15,7 @@ extension ParseClient {
         let method = Methods.StudentLocation
         
         /* 2. Make the request */
-        taskForGETMethod(method, parameters: parameters) { JSONResult, error in
+        taskForGETMethod(method, parameters: parameters) { result, error in
             
             /* 3. Send the desired value(s) to completion handler */
             guard error == nil else {
@@ -23,9 +23,8 @@ extension ParseClient {
                 return
             }
             
-            if let results = JSONResult![JSONResponseKeys.Results] as? [[String : AnyObject]] {
-                
-                self.ParseStudentLocations = ParseStudentInformation.studentinfoFromResults(results)
+            if let results = result![JSONResponseKeys.Results] as? [[String : AnyObject]] {
+                self.studentLocations = StudentInformation.studentinfoFromResults(results)
                 completionHandler(success: true, errorString: nil)
             } else {
                 completionHandler(success: false, errorString: "The student locations couldn't be loaded")

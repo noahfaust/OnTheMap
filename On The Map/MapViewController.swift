@@ -25,7 +25,7 @@ class MapViewController: StudentLocationsViewController {
     
     override func viewWillAppear(animated: Bool) {
         // TODO: reload data
-        if ParseClient.sharedInstance().ParseStudentLocations.isEmpty {
+        if ParseClient.sharedInstance().studentLocations.isEmpty {
             
             showLoadingIndicator()
             ParseClient.sharedInstance().getStudentLocations { success, error -> Void in
@@ -55,9 +55,6 @@ class MapViewController: StudentLocationsViewController {
     }
     
     func loadingPins() {
-        // The "locations" array is an array of dictionary objects that are similar to the JSON
-        // data that you can download from parse.
-        let locations = ParseClient.sharedInstance().ParseStudentLocations
         
         // We will create an MKPointAnnotation for each dictionary in "locations". The
         // point annotations will be stored in this array, and then provided to the map view.
@@ -67,28 +64,32 @@ class MapViewController: StudentLocationsViewController {
         // to create map annotations. This would be more stylish if the dictionaries were being
         // used to create custom structs. Perhaps StudentLocation structs.
         
-        for location in locations {
+        for studentInfo in ParseClient.sharedInstance().studentLocations {
+//            
+//            // Notice that the float values are being used to create CLLocationDegree values.
+//            // This is a version of the Double type.
+//            let lat = CLLocationDegrees(studentInfo.latitude!)
+//            let long = CLLocationDegrees(studentInfo.longitude!)
+//            
+//            // The lat and long are used to create a CLLocationCoordinates2D instance.
+//            let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
+//            
+//            let first = studentInfo.firstName
+//            let last = studentInfo.lastName
+//            let mediaURL = studentInfo.mediaURL!
+//            
+//            // Here we create the annotation and set its coordiate, title, and subtitle properties
+//            let annotation = MKPointAnnotation()
+//            annotation.coordinate = coordinate
+//            annotation.title = "\(first) \(last)".stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+//            annotation.subtitle = mediaURL
             
-            // Notice that the float values are being used to create CLLocationDegree values.
-            // This is a version of the Double type.
-            let lat = CLLocationDegrees(location.Latitude)
-            let long = CLLocationDegrees(location.Longitude)
-            
-            // The lat and long are used to create a CLLocationCoordinates2D instance.
-            let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
-            
-            let first = location.FirstName
-            let last = location.LastName
-            let mediaURL = location.MediaURL
-            
-            // Here we create the annotation and set its coordiate, title, and subtitle properties
-            let annotation = MKPointAnnotation()
-            annotation.coordinate = coordinate
-            annotation.title = "\(first) \(last)"
-            annotation.subtitle = mediaURL
             
             // Finally we place the annotation in an array of annotations.
-            annotations.append(annotation)
+//            annotations.append(annotation)
+            if let annotation = studentInfo.getMapViewAnnotation() {
+                annotations.append(annotation)
+            }
         }
         dispatch_async(dispatch_get_main_queue()) {
             // When the array is complete, we add the annotations to the map.
@@ -127,9 +128,14 @@ extension MapViewController: MKMapViewDelegate {
     // to the URL specified in the annotationViews subtitle property.
     func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         if control == view.rightCalloutAccessoryView {
-            if let toOpen = view.annotation?.subtitle! {
-                let svc = SFSafariViewController(URL: NSURL(string: toOpen)!)
-                self.presentViewController(svc, animated: true, completion: nil)
+            if let urlString = view.annotation!.subtitle! {
+                print("urlString: \(urlString)")
+                if let url = NSURL(string: urlString) {
+                    print("url: \(url.absoluteString)")
+                    //let svc = SFSafariViewController(URL: NSURL(string: toOpen)!)
+                    let svc = SFSafariViewController(URL: url)
+                    self.presentViewController(svc, animated: true, completion: nil)
+                }
             }
         }
     }

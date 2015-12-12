@@ -54,6 +54,11 @@ class GenericClient: NSObject {
         return (!urlVars.isEmpty ? "?" : "") + urlVars.joinWithSeparator("&")
     }
     
+    /* Helper: Substitute the key for the value that is contained within the method name */
+    func subtituteKeyInMethod(method: String, key: String, value: String) -> String {
+        return method.stringByReplacingOccurrencesOfString("{\(key)}", withString: value)
+    }
+    
 }
 
 // MARK: Client Error Types

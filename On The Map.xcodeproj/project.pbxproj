@@ -14,12 +14,15 @@
 		F10540C61C12D33700F842F3 /* ParceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10540C51C12D33700F842F3 /* ParceClient.swift */; };
 		F10540C81C12D35600F842F3 /* ParseConstantsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10540C71C12D35600F842F3 /* ParseConstantsExtension.swift */; };
 		F10540CA1C12DB4C00F842F3 /* ParseConvenienceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10540C91C12DB4C00F842F3 /* ParseConvenienceExtension.swift */; };
-		F10540CC1C12DC0500F842F3 /* ParseStudentInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10540CB1C12DC0500F842F3 /* ParseStudentInformation.swift */; };
+		F10540CC1C12DC0500F842F3 /* StudentInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10540CB1C12DC0500F842F3 /* StudentInformation.swift */; };
 		F19C0C301C19A7D8001B79AA /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1F634C31C0F0CD100A7E67C /* Roboto-Medium.ttf */; };
 		F19C0C311C19A7D8001B79AA /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1F634C41C0F0CD200A7E67C /* Roboto-Regular.ttf */; };
 		F19C0C321C19A7D8001B79AA /* Roboto-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1F634C51C0F0CD200A7E67C /* Roboto-Thin.ttf */; };
 		F1A6F6801C13E2E6005D7DD7 /* FacebookHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A6F67F1C13E2E6005D7DD7 /* FacebookHelper.swift */; };
 		F1A6F6821C15822B005D7DD7 /* InformationPostingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A6F6811C15822B005D7DD7 /* InformationPostingViewController.swift */; };
+		F1BBE6481C1C0B9100AF8C85 /* InformationPostingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BBE6471C1C0B9100AF8C85 /* InformationPostingButton.swift */; };
+		F1BBE64A1C1C144500AF8C85 /* InformationPostingStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BBE6491C1C144500AF8C85 /* InformationPostingStage.swift */; };
+		F1BBE64C1C1C16AD00AF8C85 /* InformationPostingTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BBE64B1C1C16AD00AF8C85 /* InformationPostingTextField.swift */; };
 		F1F634961C0F019D00A7E67C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F634951C0F019D00A7E67C /* AppDelegate.swift */; };
 		F1F634981C0F019D00A7E67C /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F634971C0F019D00A7E67C /* LoginViewController.swift */; };
 		F1F6349B1C0F019D00A7E67C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F1F634991C0F019D00A7E67C /* Main.storyboard */; };
@@ -33,7 +36,7 @@
 		F1F634E01C1179DC00A7E67C /* UdacityConstantsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F634DF1C1179DC00A7E67C /* UdacityConstantsExtension.swift */; };
 		F1F634E21C11894900A7E67C /* GenericClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F634E11C11894900A7E67C /* GenericClient.swift */; };
 		F1F634E41C118C0C00A7E67C /* UdacityConvenienceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F634E31C118C0C00A7E67C /* UdacityConvenienceExtension.swift */; };
-		F1F634E71C11A5D300A7E67C /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F634E61C11A5D300A7E67C /* CustomTextField.swift */; };
+		F1F634E71C11A5D300A7E67C /* LoginTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1F634E61C11A5D300A7E67C /* LoginTextField.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,12 +64,15 @@
 		F10540C51C12D33700F842F3 /* ParceClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParceClient.swift; sourceTree = "<group>"; };
 		F10540C71C12D35600F842F3 /* ParseConstantsExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseConstantsExtension.swift; sourceTree = "<group>"; };
 		F10540C91C12DB4C00F842F3 /* ParseConvenienceExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseConvenienceExtension.swift; sourceTree = "<group>"; };
-		F10540CB1C12DC0500F842F3 /* ParseStudentInformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseStudentInformation.swift; sourceTree = "<group>"; };
+		F10540CB1C12DC0500F842F3 /* StudentInformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentInformation.swift; sourceTree = "<group>"; };
 		F19C0C2D1C198F79001B79AA /* On The Map.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "On The Map.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F19C0C2E1C198F79001B79AA /* On The MapTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "On The MapTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F19C0C2F1C198F79001B79AA /* On The MapUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "On The MapUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F1A6F67F1C13E2E6005D7DD7 /* FacebookHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FacebookHelper.swift; sourceTree = "<group>"; };
 		F1A6F6811C15822B005D7DD7 /* InformationPostingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InformationPostingViewController.swift; sourceTree = "<group>"; };
+		F1BBE6471C1C0B9100AF8C85 /* InformationPostingButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InformationPostingButton.swift; sourceTree = "<group>"; };
+		F1BBE6491C1C144500AF8C85 /* InformationPostingStage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InformationPostingStage.swift; sourceTree = "<group>"; };
+		F1BBE64B1C1C16AD00AF8C85 /* InformationPostingTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InformationPostingTextField.swift; sourceTree = "<group>"; };
 		F1F634951C0F019D00A7E67C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F1F634971C0F019D00A7E67C /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		F1F6349A1C0F019D00A7E67C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -86,7 +92,7 @@
 		F1F634DF1C1179DC00A7E67C /* UdacityConstantsExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityConstantsExtension.swift; sourceTree = "<group>"; };
 		F1F634E11C11894900A7E67C /* GenericClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenericClient.swift; sourceTree = "<group>"; };
 		F1F634E31C118C0C00A7E67C /* UdacityConvenienceExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityConvenienceExtension.swift; sourceTree = "<group>"; };
-		F1F634E61C11A5D300A7E67C /* CustomTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		F1F634E61C11A5D300A7E67C /* LoginTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginTextField.swift; sourceTree = "<group>"; };
 		F1F634E81C11E8FF00A7E67C /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -209,6 +215,7 @@
 			isa = PBXGroup;
 			children = (
 				F1F634E11C11894900A7E67C /* GenericClient.swift */,
+				F10540CB1C12DC0500F842F3 /* StudentInformation.swift */,
 				F1F634DA1C10934800A7E67C /* FacebookHelper */,
 				F1F634DB1C10935400A7E67C /* ParseClient */,
 				F1F634DC1C10936000A7E67C /* UdacityClient */,
@@ -230,7 +237,6 @@
 				F10540C51C12D33700F842F3 /* ParceClient.swift */,
 				F10540C91C12DB4C00F842F3 /* ParseConvenienceExtension.swift */,
 				F10540C71C12D35600F842F3 /* ParseConstantsExtension.swift */,
-				F10540CB1C12DC0500F842F3 /* ParseStudentInformation.swift */,
 			);
 			name = ParseClient;
 			sourceTree = "<group>";
@@ -248,7 +254,10 @@
 		F1F634E51C11A5AE00A7E67C /* View */ = {
 			isa = PBXGroup;
 			children = (
-				F1F634E61C11A5D300A7E67C /* CustomTextField.swift */,
+				F1F634E61C11A5D300A7E67C /* LoginTextField.swift */,
+				F1BBE64B1C1C16AD00AF8C85 /* InformationPostingTextField.swift */,
+				F1BBE6471C1C0B9100AF8C85 /* InformationPostingButton.swift */,
+				F1BBE6491C1C144500AF8C85 /* InformationPostingStage.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -387,8 +396,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F10540CC1C12DC0500F842F3 /* ParseStudentInformation.swift in Sources */,
-				F1F634E71C11A5D300A7E67C /* CustomTextField.swift in Sources */,
+				F10540CC1C12DC0500F842F3 /* StudentInformation.swift in Sources */,
+				F1F634E71C11A5D300A7E67C /* LoginTextField.swift in Sources */,
 				F103B9751C12E6F300D2B842 /* TableViewController.swift in Sources */,
 				F1F634E21C11894900A7E67C /* GenericClient.swift in Sources */,
 				F1F634981C0F019D00A7E67C /* LoginViewController.swift in Sources */,
@@ -396,8 +405,11 @@
 				F10540C61C12D33700F842F3 /* ParceClient.swift in Sources */,
 				F10540C41C12CCA600F842F3 /* LoginViewExtension.swift in Sources */,
 				F1F634DE1C11788400A7E67C /* UdacityClient.swift in Sources */,
+				F1BBE64A1C1C144500AF8C85 /* InformationPostingStage.swift in Sources */,
 				F1A6F6821C15822B005D7DD7 /* InformationPostingViewController.swift in Sources */,
 				F1A6F6801C13E2E6005D7DD7 /* FacebookHelper.swift in Sources */,
+				F1BBE6481C1C0B9100AF8C85 /* InformationPostingButton.swift in Sources */,
+				F1BBE64C1C1C16AD00AF8C85 /* InformationPostingTextField.swift in Sources */,
 				F10540CA1C12DB4C00F842F3 /* ParseConvenienceExtension.swift in Sources */,
 				F103B97D1C13513100D2B842 /* StudentLocationsViewController.swift in Sources */,
 				F1F634E01C1179DC00A7E67C /* UdacityConstantsExtension.swift in Sources */,

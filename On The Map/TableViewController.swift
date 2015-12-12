@@ -21,7 +21,7 @@ class TableViewController: StudentLocationsViewController {
         tableView.delegate = self
         tableView.dataSource = self
         
-        if ParseClient.sharedInstance().ParseStudentLocations.isEmpty {
+        if ParseClient.sharedInstance().studentLocations.isEmpty {
             loadStudentLocations()
         }
     }
@@ -80,12 +80,14 @@ extension TableViewController: UITableViewDelegate, UITableViewDataSource {
         
         /* Get cell type */
         let cellReuseIdentifier = "LocationCell"
-        let location = ParseClient.sharedInstance().ParseStudentLocations[indexPath.row]
+        let location = ParseClient.sharedInstance().studentLocations[indexPath.row]
         let cell = tableView.dequeueReusableCellWithIdentifier(cellReuseIdentifier) as UITableViewCell!
         
         /* Set cell defaults */
-        cell.textLabel!.text = "\(location.FirstName) \(location.LastName)"
-        cell.detailTextLabel!.text = location.MediaURL
+        cell.textLabel!.text = "\(location.firstName) \(location.lastName)".stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        if let mediaURL = location.mediaURL {
+            cell.detailTextLabel!.text = mediaURL
+        }
         cell.imageView!.image = UIImage(named: "pin")
         cell.imageView!.contentMode = UIViewContentMode.ScaleAspectFit
         
@@ -93,16 +95,26 @@ extension TableViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return ParseClient.sharedInstance().ParseStudentLocations.count
+        return ParseClient.sharedInstance().studentLocations.count
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-
-        let location = ParseClient.sharedInstance().ParseStudentLocations[indexPath.row]
-        let svc = SFSafariViewController(URL: NSURL(string: location.MediaURL)!)
-        self.presentViewController(svc, animated: true, completion: nil)
-    
+        let location = ParseClient.sharedInstance().studentLocations[indexPath.row]
+//        if let url = NSURL(string: location.mediaURL!) {
+//            let svc = SFSafariViewController(URL: url)
+//            self.presentViewController(svc, animated: true, completion: nil)
+//        }
+        
+        if let urlString = location.mediaURL {
+            print("urlString: \(urlString)")
+            if let url = NSURL(string: urlString) {
+                print("url: \(url.absoluteString)")
+                //let svc = SFSafariViewController(URL: NSURL(string: toOpen)!)
+                let svc = SFSafariViewController(URL: url)
+                self.presentViewController(svc, animated: true, completion: nil)
+            }
+        }
     }
 }
 

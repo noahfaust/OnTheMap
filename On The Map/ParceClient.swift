@@ -11,7 +11,7 @@ import Foundation
 class ParseClient: GenericClient {
     
     /* Student Locations */
-    var ParseStudentLocations: [ParseStudentInformation] = [ParseStudentInformation]()
+    var studentLocations: [StudentInformation] = [StudentInformation]()
     
     func taskForGETMethod(method: String, parameters: [String : AnyObject], completionHandler: (result: AnyObject?, error: ClientError?) -> Void) -> NSURLSessionDataTask {
         

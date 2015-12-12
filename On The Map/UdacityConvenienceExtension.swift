@@ -8,7 +8,17 @@
 
 extension UdacityClient {
     
-    func postNewSession(username: String, password: String, completionHandler: (success: Bool, errorString: String?) -> Void) {
+    func authenticateUser(username: String, password: String, completionHandler: (success: Bool, errorString: String?) -> Void) {
+        postNewSession(username, password: password) { success, errorString in
+            if success {
+                self.getUserInfo(completionHandler)
+            } else {
+                completionHandler(success: false, errorString: errorString)
+            }
+        }
+    }
+    
+    private func postNewSession(username: String, password: String, completionHandler: (success: Bool, errorString: String?) -> Void) {
         
         /* 1. Specify parameters (none), method, and HTTP body */
         let method : String = Methods.Session
@@ -16,13 +26,23 @@ extension UdacityClient {
             JSONBodyKeys.Udacity: [JSONBodyKeys.Username : username, JSONBodyKeys.Password : password] as [String: AnyObject]
         ]
         
-        taskForPOSTMethod(method, jsonBody: jsonBody) { JSONResult, error in
+        taskForPOSTMethod(method, jsonBody: jsonBody) { result, error in
             
-            self.parseUdacityNewSessionResult(JSONResult, error: error, completionHandler: completionHandler)
+            self.parseUdacityNewSessionResult(result, error: error, completionHandler: completionHandler)
         }
     }
     
-    func postNewSessionWithFacebook(facebookToken: String, completionHandler: (success: Bool, errorString: String?) -> Void) {
+    func authenticateUserWithFacebook(facebookToken: String, completionHandler: (success: Bool, errorString: String?) -> Void) {
+        postNewSession(facebookToken) { success, errorString in
+            if success {
+                self.getUserInfo(completionHandler)
+            } else {
+                completionHandler(success: false, errorString: errorString)
+            }
+        }
+    }
+    
+    private func postNewSession(facebookToken: String, completionHandler: (success: Bool, errorString: String?) -> Void) {
         
         /* 1. Specify parameters (none), method, and HTTP body */
         let method : String = Methods.Session
@@ -30,15 +50,15 @@ extension UdacityClient {
             JSONBodyKeys.FacebookLogin: [JSONBodyKeys.AccessToken : facebookToken] as [String: AnyObject]
         ]
         
-        taskForPOSTMethod(method, jsonBody: jsonBody) { JSONResult, error in
+        taskForPOSTMethod(method, jsonBody: jsonBody) { result, error in
 
-            self.parseUdacityNewSessionResult(JSONResult, error: error, completionHandler: completionHandler)
+            self.parseUdacityNewSessionResult(result, error: error, completionHandler: completionHandler)
             
         }
     }
     
     // Helper: Parse the foundation object got from the response JSON */
-    func parseUdacityNewSessionResult(result: AnyObject?, error: ClientError?, completionHandler: (success: Bool, errorString: String?) -> Void) {
+    private func parseUdacityNewSessionResult(result: AnyObject?, error: ClientError?, completionHandler: (success: Bool, errorString: String?) -> Void) {
         
         guard error == nil else {
             if error == .InvalidCredentials {
@@ -92,12 +112,44 @@ extension UdacityClient {
         /* 1. Specify parameters (none), method, and HTTP body */
         let method : String = Methods.Session
         
-        taskForDELETEMethod(method) { JSONResult, error in
+        taskForDELETEMethod(method) { result, error in
             
             // Set SessionId and UserId to nil whatever the method suceeded or not
             UdacityClient.sharedInstance().sessionId = nil
             UdacityClient.sharedInstance().userId = nil
         }
+    }
+    
+    func getUserInfo(completionHandler: (success: Bool, errorString: String?) -> Void) {
+        /* 1. Specify parameters (none), method, and HTTP body */
+        var mutableMethod = Methods.UserInfo
+        mutableMethod = subtituteKeyInMethod(mutableMethod, key: URLKeys.UserId, value: userId!)
+        
+        taskForGETMethod(mutableMethod) { result, error in
+            
+            guard error == nil else {
+                completionHandler(success: false, errorString: "Login Failed")
+                return
+            }
+            
+            /* 5. Parse the data - Part 2 */
+            if let result = result {
+                
+                guard let userDictionnary = result[JSONResponseKeys.User] as? [String: AnyObject] else {
+                    print("Could not find key 'user' in  parsedResult: \(result)")
+                    completionHandler(success: false, errorString: "Login Failed")
+                    return
+                }
+                
+                /* 6. Use the data! */
+                let firstName = userDictionnary[JSONResponseKeys.FirstName] as? String
+                let lastName = userDictionnary[JSONResponseKeys.LastName] as? String
+                self.userInfo = StudentInformation(userId: self.userId!, firstName: firstName, lastName: lastName)
+                
+                completionHandler(success: true, errorString: nil)
+            }
+        }
+        
     }
     
 }

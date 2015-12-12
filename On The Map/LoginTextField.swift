@@ -1,5 +1,5 @@
 //
-//  CustomTextField.swift
+//  LoginTextField.swift
 //  On The Map
 //
 //  Created by Alexandre Gonzalo on 4/12/2015.
@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class CustomTextField: UITextField {
+class LoginTextField: UITextField {
     
     @IBOutlet weak var nextTextField: UITextField?
     

@@ -11,9 +11,9 @@ extension LoginViewController: UITextFieldDelegate {
     /* Extension with UI merthods: Tap Recognition and Text field delegation */
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
-        if textField.isKindOfClass(CustomTextField) {
+        if textField.isKindOfClass(LoginTextField) {
             
-            if let nextField = (textField as! CustomTextField).nextTextField {
+            if let nextField = (textField as! LoginTextField).nextTextField {
                 
                 // If current field if Email, then it has a Next field (using Custom Text Field class)
                 // On hitting Return, the Password field become the first responder

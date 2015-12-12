@@ -13,8 +13,8 @@ import SafariServices
 class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
 
     @IBOutlet weak var loginButton: FBSDKLoginButton!
-    @IBOutlet weak var emailTextField: CustomTextField!
-    @IBOutlet weak var passwordTextField: CustomTextField!
+    @IBOutlet weak var emailTextField: LoginTextField!
+    @IBOutlet weak var passwordTextField: LoginTextField!
     @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
     @IBOutlet weak var loginLabel: UILabel!
     
@@ -22,9 +22,6 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        print("LoginLabel: \(loginLabel.font.fontName)")
-        print("EmailField: \(emailTextField.font!.fontName)")
         
         loginButton.delegate = self
         emailTextField.delegate = self
@@ -71,7 +68,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         showLoadingIndicator()
         
         // Request a new session using Udacity API with Email and Password
-        UdacityClient.sharedInstance().postNewSession(emailTextField.text!, password: passwordTextField.text!) { success, errorString -> Void in
+        UdacityClient.sharedInstance().authenticateUser(emailTextField.text!, password: passwordTextField.text!) { success, errorString -> Void in
             self.loginCompletionHandler(success, errorString: errorString)
         }
     }
@@ -90,7 +87,7 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         showLoadingIndicator()
         
         // Request a new session using Udacity API with the facebook token,
-        UdacityClient.sharedInstance().postNewSessionWithFacebook(result.token.tokenString) { success, errorString -> Void in
+        UdacityClient.sharedInstance().authenticateUserWithFacebook(result.token.tokenString) { success, errorString -> Void in
             self.loginCompletionHandler(success, errorString: errorString)
         }
     }
