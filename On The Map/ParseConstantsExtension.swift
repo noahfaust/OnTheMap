@@ -29,7 +29,8 @@ extension ParseClient {
     // MARK: URL Keys
     struct URLKeys {
         
-        static let UserID = "id"
+        //static let UserID = "id"
+        static let ObjectId = "objectId"
         
     }
     
@@ -39,6 +40,7 @@ extension ParseClient {
         static let Limit = "limit"
         static let Skip = "skip"
         static let Order = "order"
+        static let Where = "where"
         
     }
     
@@ -50,7 +52,7 @@ extension ParseClient {
     }
     
     // MARK: JSON Response Keys
-    struct JSONResponseKeys {
+    struct JSONKeys {
         
         // MARK: General
         static let Results = "results"

@@ -12,9 +12,11 @@ class GenericClient: NSObject {
     
     /* Shared session */
     var session: NSURLSession
+    var appDelegate: AppDelegate!
     
     override init() {
         session = NSURLSession.sharedSession()
+        appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         super.init()
     }
     

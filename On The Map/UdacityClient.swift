@@ -13,7 +13,7 @@ class UdacityClient: GenericClient {
     /* Authentication Info */
     var sessionId: String? = nil
     var userId: String? = nil
-    var userInfo: StudentInformation? = nil
+    //var userInfo: StudentInformation? = nil
     
     func taskForGETMethod(method: String, completionHandler: (result: AnyObject?, error: ClientError?) -> Void) -> NSURLSessionDataTask {
         

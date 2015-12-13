@@ -26,22 +26,22 @@ class StudentInformation {
     /* Construct a StudentInformation from a dictionary */
     init(dictionary: [String : AnyObject]) {
         
-        objectId = dictionary[ParseClient.JSONResponseKeys.ObjectId] as? String
-        uniqueKey = dictionary[ParseClient.JSONResponseKeys.UniqueKey] as! String
-        if let first = dictionary[ParseClient.JSONResponseKeys.FirstName] as? String {
+        objectId = dictionary[ParseClient.JSONKeys.ObjectId] as? String
+        uniqueKey = dictionary[ParseClient.JSONKeys.UniqueKey] as! String
+        if let first = dictionary[ParseClient.JSONKeys.FirstName] as? String {
             firstName = first
         } else {
             firstName = ""
         }
-        if let last = dictionary[ParseClient.JSONResponseKeys.LastName] as? String {
+        if let last = dictionary[ParseClient.JSONKeys.LastName] as? String {
             lastName = last
         } else {
             lastName = ""
         }
-        mapString = dictionary[ParseClient.JSONResponseKeys.MapString] as? String
-        mediaURL = dictionary[ParseClient.JSONResponseKeys.MediaURL] as? String
-        latitude = dictionary[ParseClient.JSONResponseKeys.Latitude] as? Double
-        longitude = dictionary[ParseClient.JSONResponseKeys.Longitude] as? Double
+        mapString = dictionary[ParseClient.JSONKeys.MapString] as? String
+        mediaURL = dictionary[ParseClient.JSONKeys.MediaURL] as? String
+        latitude = dictionary[ParseClient.JSONKeys.Latitude] as? Double
+        longitude = dictionary[ParseClient.JSONKeys.Longitude] as? Double
     }
     
     /* Construct a StudentInformation with parameter */

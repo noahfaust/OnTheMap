@@ -8,17 +8,7 @@
 
 extension UdacityClient {
     
-    func authenticateUser(username: String, password: String, completionHandler: (success: Bool, errorString: String?) -> Void) {
-        postNewSession(username, password: password) { success, errorString in
-            if success {
-                self.getUserInfo(completionHandler)
-            } else {
-                completionHandler(success: false, errorString: errorString)
-            }
-        }
-    }
-    
-    private func postNewSession(username: String, password: String, completionHandler: (success: Bool, errorString: String?) -> Void) {
+    func postNewSession(username: String, password: String, completionHandler: (success: Bool, errorString: String?) -> Void) {
         
         /* 1. Specify parameters (none), method, and HTTP body */
         let method : String = Methods.Session
@@ -28,21 +18,14 @@ extension UdacityClient {
         
         taskForPOSTMethod(method, jsonBody: jsonBody) { result, error in
             
-            self.parseUdacityNewSessionResult(result, error: error, completionHandler: completionHandler)
-        }
-    }
-    
-    func authenticateUserWithFacebook(facebookToken: String, completionHandler: (success: Bool, errorString: String?) -> Void) {
-        postNewSession(facebookToken) { success, errorString in
-            if success {
-                self.getUserInfo(completionHandler)
-            } else {
-                completionHandler(success: false, errorString: errorString)
+            self.parseUdacityNewSessionResult(result, error: error) { success, errorString in
+                
+                self.completeAuthentication(success, errorString: errorString, completionHandler: completionHandler)
             }
         }
     }
     
-    private func postNewSession(facebookToken: String, completionHandler: (success: Bool, errorString: String?) -> Void) {
+    func postNewSession(facebookToken: String, completionHandler: (success: Bool, errorString: String?) -> Void) {
         
         /* 1. Specify parameters (none), method, and HTTP body */
         let method : String = Methods.Session
@@ -52,7 +35,10 @@ extension UdacityClient {
         
         taskForPOSTMethod(method, jsonBody: jsonBody) { result, error in
 
-            self.parseUdacityNewSessionResult(result, error: error, completionHandler: completionHandler)
+            self.parseUdacityNewSessionResult(result, error: error) { success, errorString in
+                
+                self.completeAuthentication(success, errorString: errorString, completionHandler: completionHandler)
+            }
             
         }
     }
@@ -107,6 +93,22 @@ extension UdacityClient {
         }
     }
     
+    private func completeAuthentication(success: Bool, errorString: String?, completionHandler: (success: Bool, errorString: String?) -> Void) {
+        if success {
+            self.getUserInfo() { success, errorString -> Void in
+                if success {
+                    ParseClient.sharedInstance().getCurrentLocation(self.userId!) { success, errorString -> Void in
+                        completionHandler (success: true, errorString: nil)
+                    }
+                } else {
+                    completionHandler(success: false, errorString: errorString)
+                }
+            }
+        } else {
+            completionHandler(success: false, errorString: errorString)
+        }
+    }
+    
     func deleteSession() {
         
         /* 1. Specify parameters (none), method, and HTTP body */
@@ -144,7 +146,7 @@ extension UdacityClient {
                 /* 6. Use the data! */
                 let firstName = userDictionnary[JSONResponseKeys.FirstName] as? String
                 let lastName = userDictionnary[JSONResponseKeys.LastName] as? String
-                self.userInfo = StudentInformation(userId: self.userId!, firstName: firstName, lastName: lastName)
+                self.appDelegate.userInfo = StudentInformation(userId: self.userId!, firstName: firstName, lastName: lastName)
                 
                 completionHandler(success: true, errorString: nil)
             }

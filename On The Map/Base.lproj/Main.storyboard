@@ -81,7 +81,7 @@
                                         <rect key="frame" x="172" y="183" width="256" height="34"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="18"/>
-                                        <textInputTraits key="textInputTraits" returnKeyType="next"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="emailAddress" returnKeyType="next"/>
                                         <connections>
                                             <outlet property="nextTextField" destination="Ow9-b4-OUf" id="6jg-YY-M7t"/>
                                         </connections>
@@ -325,10 +325,10 @@
             </objects>
             <point key="canvasLocation" x="4356" y="769"/>
         </scene>
-        <!--Information Posting View Controller-->
+        <!--Check In View Controller-->
         <scene sceneID="3Hx-p7-z75">
             <objects>
-                <viewController id="yNR-zI-BsU" customClass="InformationPostingViewController" customModule="On_The_Map" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="yNR-zI-BsU" customClass="CheckInViewController" customModule="On_The_Map" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="FNX-Lb-71b"/>
                         <viewControllerLayoutGuide type="bottom" id="AQE-tt-51S"/>

@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import SafariServices
 
-class TableViewController: StudentLocationsViewController {
+class TableViewController: CustomViewController {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
@@ -21,16 +21,21 @@ class TableViewController: StudentLocationsViewController {
         tableView.delegate = self
         tableView.dataSource = self
         
-        if ParseClient.sharedInstance().studentLocations.isEmpty {
-            loadStudentLocations()
-        }
+//        if ParseClient.sharedInstance().studentLocations.isEmpty {
+//            loadStudentLocations()
+//        }
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        hideLoadingIndicator()
-        tableView.reloadData()
+        if ParseClient.sharedInstance().needRefresh() {
+            loadStudentLocations()
+        } else {
+        
+            hideLoadingIndicator()
+            tableView.reloadData()
+        }
     }
     
     override func viewWillDisappear(animated: Bool) {

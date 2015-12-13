@@ -38,3 +38,13 @@ class LoginTextField: UITextField {
     }
     
 }
+
+extension UITextField {
+    func getTrimmedText() -> String {
+        if let text = text {
+            return text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        } else {
+            return ""
+        }
+    }
+}

@@ -10,7 +10,7 @@ import UIKit
 import FBSDKLoginKit
 import SafariServices
 
-class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
+class LoginViewController: CustomViewController, FBSDKLoginButtonDelegate {
 
     @IBOutlet weak var loginButton: FBSDKLoginButton!
     @IBOutlet weak var emailTextField: LoginTextField!
@@ -67,13 +67,15 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         showLoadingIndicator()
         
         // Request a new session using Udacity API with Email and Password
-        UdacityClient.sharedInstance().authenticateUser(emailTextField.text!, password: passwordTextField.text!) { success, errorString -> Void in
+        UdacityClient.sharedInstance().postNewSession(emailTextField.text!, password: passwordTextField.text!) { success, errorString -> Void in
+
+        //UdacityClient.sharedInstance().authenticateUser(emailTextField.text!, password: passwordTextField.text!) { success, errorString -> Void in
             self.loginCompletionHandler(success, errorString: errorString)
         }
     }
     
     // Required method to implemenent the facebook login button
-    func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
+    @objc func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
         guard error == nil else {
             promtAlert("There was an error with your facebook login")
             return
@@ -86,7 +88,9 @@ class LoginViewController: UIViewController, FBSDKLoginButtonDelegate {
         showLoadingIndicator()
         
         // Request a new session using Udacity API with the facebook token,
-        UdacityClient.sharedInstance().authenticateUserWithFacebook(result.token.tokenString) { success, errorString -> Void in
+        UdacityClient.sharedInstance().postNewSession(result.token.tokenString) { success, errorString -> Void in
+
+        //UdacityClient.sharedInstance().authenticateUserWithFacebook(result.token.tokenString) { success, errorString -> Void in
             self.loginCompletionHandler(success, errorString: errorString)
         }
     }

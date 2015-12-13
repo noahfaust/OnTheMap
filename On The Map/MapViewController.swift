@@ -11,7 +11,7 @@ import UIKit
 import MapKit
 import SafariServices
 
-class MapViewController: StudentLocationsViewController {
+class MapViewController: CustomViewController {
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
@@ -25,7 +25,7 @@ class MapViewController: StudentLocationsViewController {
     
     override func viewWillAppear(animated: Bool) {
         // TODO: reload data
-        if ParseClient.sharedInstance().studentLocations.isEmpty {
+        if ParseClient.sharedInstance().needRefresh() {
             
             showLoadingIndicator()
             ParseClient.sharedInstance().getStudentLocations { success, error -> Void in
@@ -93,6 +93,8 @@ class MapViewController: StudentLocationsViewController {
         }
         dispatch_async(dispatch_get_main_queue()) {
             // When the array is complete, we add the annotations to the map.
+            // TODO:remove existing annotations : self.mapView.
+            
             self.mapView.addAnnotations(annotations)
             
             self.hideLoadingIndicator()
