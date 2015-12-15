@@ -8,7 +8,7 @@
 
 import MapKit
 
-class StudentInformation {
+struct StudentInformation {
     
     // MARK: Properties
     
@@ -23,7 +23,7 @@ class StudentInformation {
     
     // MARK: Initializers
     
-    /* Construct a StudentInformation from a dictionary */
+    /* Construct a StudentInformation from a dictionary: used when loading the 100 last locations */
     init(dictionary: [String : AnyObject]) {
         
         objectId = dictionary[ParseClient.JSONKeys.ObjectId] as? String
@@ -44,7 +44,7 @@ class StudentInformation {
         longitude = dictionary[ParseClient.JSONKeys.Longitude] as? Double
     }
     
-    /* Construct a StudentInformation with parameter */
+    /* Construct a StudentInformation with Udacity parameters (first name, last name and user Id): used when the user logs in */
     init(userId: String, firstName: String?, lastName: String?) {
         uniqueKey = userId
         if let firstName = firstName {
@@ -59,12 +59,11 @@ class StudentInformation {
         }
     }
     
+    /* Return the annotation point for the given user: used to display the last 100 locations */
     func getMapViewAnnotation() -> MKPointAnnotation? {
-        
         guard let latitude = latitude else {
             return nil
         }
-        
         guard let longitude = longitude else {
             return nil
         }
@@ -87,18 +86,38 @@ class StudentInformation {
         return annotation
     }
     
-//    func setMediaURL(mediaURL: String) {
-//        self.mediaURL = mediaURL
-//    }
-    
-    func setLocation(location: CLLocation, mapString: String) {
-        //self.latitude = latitude
-        //self.longitude = longitude
+    /* Update user location: used by check in screen */
+    mutating func setLocation(location: CLLocation, mapString: String, mediaURL: String) {
         self.latitude = location.coordinate.latitude
         self.longitude = location.coordinate.longitude
         self.mapString = mapString
+        self.mediaURL = mediaURL
+    }
+    
+    /* Update user location at login if Parse return an existing location */
+    mutating func setLocation(dictionary: [String : AnyObject]) {
         
-        print("Latitude: \(self.latitude) Longitude: \(self.longitude)")
+        if let objectId = dictionary[ParseClient.JSONKeys.ObjectId] as? String {
+            self.objectId = objectId
+        }
+        
+        // uniqueKey, firstName, lastName are already set by Udacity getUserInfo
+        
+        if let mapString = dictionary[ParseClient.JSONKeys.MapString] as? String {
+            self.mapString = mapString
+        }
+        
+        if let mediaURL = dictionary[ParseClient.JSONKeys.MediaURL] as? String {
+            self.mediaURL = mediaURL
+        }
+        
+        if let latitude = dictionary[ParseClient.JSONKeys.Latitude] as? Double {
+            self.latitude = latitude
+        }
+        
+        if let longitude = dictionary[ParseClient.JSONKeys.Longitude] as? Double {
+            self.longitude = longitude
+        }
     }
     
     /* Helper: Given an array of dictionaries, convert them to an array of TMDBMovie objects */

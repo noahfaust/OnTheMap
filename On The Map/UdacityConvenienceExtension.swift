@@ -8,7 +8,7 @@
 
 extension UdacityClient {
     
-    func postNewSession(username: String, password: String, completionHandler: (success: Bool, errorString: String?) -> Void) {
+    func postNewSession(username: String, password: String, completion: (success: Bool, errorString: String?) -> Void) {
         
         /* 1. Specify parameters (none), method, and HTTP body */
         let method : String = Methods.Session
@@ -20,12 +20,14 @@ extension UdacityClient {
             
             self.parseUdacityNewSessionResult(result, error: error) { success, errorString in
                 
-                self.completeAuthentication(success, errorString: errorString, completionHandler: completionHandler)
+                self.completeAuthentication(success, errorString: errorString, completion: completion)
             }
         }
     }
     
-    func postNewSession(facebookToken: String, completionHandler: (success: Bool, errorString: String?) -> Void) {
+    func postNewSession(facebookToken: String, completion: (success: Bool, errorString: String?) -> Void) {
+        
+        self.facebookToken = facebookToken
         
         /* 1. Specify parameters (none), method, and HTTP body */
         let method : String = Methods.Session
@@ -37,20 +39,20 @@ extension UdacityClient {
 
             self.parseUdacityNewSessionResult(result, error: error) { success, errorString in
                 
-                self.completeAuthentication(success, errorString: errorString, completionHandler: completionHandler)
+                self.completeAuthentication(success, errorString: errorString, completion: completion)
             }
             
         }
     }
     
     // Helper: Parse the foundation object got from the response JSON */
-    private func parseUdacityNewSessionResult(result: AnyObject?, error: ClientError?, completionHandler: (success: Bool, errorString: String?) -> Void) {
+    private func parseUdacityNewSessionResult(result: AnyObject?, error: ClientError?, completion: (success: Bool, errorString: String?) -> Void) {
         
         guard error == nil else {
             if error == .InvalidCredentials {
-                completionHandler(success: false, errorString: "Invalid Email or Password")
+                completion(success: false, errorString: "Invalid Email or Password")
             } else {
-                completionHandler(success: false, errorString: "Login Failed")
+                completion(success: false, errorString: "Login Failed")
             }
             return
         }
@@ -60,13 +62,13 @@ extension UdacityClient {
         
             guard let sessionInfo = result[JSONResponseKeys.Session] as? [String: AnyObject] else {
                 print("Could not find key 'session_id' in  parsedResult: \(result)")
-                completionHandler(success: false, errorString: "Login Failed")
+                completion(success: false, errorString: "Login Failed")
                 return
             }
             
             guard let sessionId = sessionInfo[JSONResponseKeys.SessionId] as? String else {
                 print("Could not find key 'id' in sessionInfo: \(sessionInfo)")
-                completionHandler(success: false, errorString: "Login Failed")
+                completion(success: false, errorString: "Login Failed")
                 return
             }
             
@@ -75,41 +77,41 @@ extension UdacityClient {
             
             guard let userInfo = result[JSONResponseKeys.Account] as? [String: AnyObject] else {
                 print("Could not find key 'account' in  userInfo: \(result)")
-                completionHandler(success: false, errorString: "Login Failed")
+                completion(success: false, errorString: "Login Failed")
                 return
             }
             
             guard let userId = userInfo[JSONResponseKeys.AccountKey] as? String else {
                 print("Could not find key 'key' in userId: \(userInfo)")
-                completionHandler(success: false, errorString: "Login Failed")
+                completion(success: false, errorString: "Login Failed")
                 return
             }
             
             /* 6. Use the data! */
             UdacityClient.sharedInstance().userId = userId
             
-            completionHandler(success: true, errorString: nil)
+            completion(success: true, errorString: nil)
             
         }
     }
     
-    private func completeAuthentication(success: Bool, errorString: String?, completionHandler: (success: Bool, errorString: String?) -> Void) {
+    private func completeAuthentication(success: Bool, errorString: String?, completion: (success: Bool, errorString: String?) -> Void) {
         if success {
             self.getUserInfo() { success, errorString -> Void in
                 if success {
                     ParseClient.sharedInstance().getCurrentLocation(self.userId!) { success, errorString -> Void in
-                        completionHandler (success: true, errorString: nil)
+                        completion (success: true, errorString: nil)
                     }
                 } else {
-                    completionHandler(success: false, errorString: errorString)
+                    completion(success: false, errorString: errorString)
                 }
             }
         } else {
-            completionHandler(success: false, errorString: errorString)
+            completion(success: false, errorString: errorString)
         }
     }
     
-    func deleteSession() {
+    func deleteSession(completion: (success: Bool, errorString: String?) -> Void) {
         
         /* 1. Specify parameters (none), method, and HTTP body */
         let method : String = Methods.Session
@@ -117,12 +119,14 @@ extension UdacityClient {
         taskForDELETEMethod(method) { result, error in
             
             // Set SessionId and UserId to nil whatever the method suceeded or not
-            UdacityClient.sharedInstance().sessionId = nil
-            UdacityClient.sharedInstance().userId = nil
+            self.sessionId = nil
+            self.userId = nil
+            self.appDelegate.userInfo = nil
+            completion(success: true, errorString: nil)
         }
     }
     
-    func getUserInfo(completionHandler: (success: Bool, errorString: String?) -> Void) {
+    func getUserInfo(completion: (success: Bool, errorString: String?) -> Void) {
         /* 1. Specify parameters (none), method, and HTTP body */
         var mutableMethod = Methods.UserInfo
         mutableMethod = subtituteKeyInMethod(mutableMethod, key: URLKeys.UserId, value: userId!)
@@ -130,7 +134,7 @@ extension UdacityClient {
         taskForGETMethod(mutableMethod) { result, error in
             
             guard error == nil else {
-                completionHandler(success: false, errorString: "Login Failed")
+                completion(success: false, errorString: "Login Failed")
                 return
             }
             
@@ -139,7 +143,7 @@ extension UdacityClient {
                 
                 guard let userDictionnary = result[JSONResponseKeys.User] as? [String: AnyObject] else {
                     print("Could not find key 'user' in  parsedResult: \(result)")
-                    completionHandler(success: false, errorString: "Login Failed")
+                    completion(success: false, errorString: "Login Failed")
                     return
                 }
                 
@@ -148,7 +152,7 @@ extension UdacityClient {
                 let lastName = userDictionnary[JSONResponseKeys.LastName] as? String
                 self.appDelegate.userInfo = StudentInformation(userId: self.userId!, firstName: firstName, lastName: lastName)
                 
-                completionHandler(success: true, errorString: nil)
+                completion(success: true, errorString: nil)
             }
         }
         

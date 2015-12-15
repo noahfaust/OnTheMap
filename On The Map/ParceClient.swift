@@ -14,15 +14,12 @@ class ParseClient: GenericClient {
     var studentLocations: [StudentInformation] = [StudentInformation]()
     var newCheckInSinceLastRefresh = false
     
-    func taskForGETMethod(method: String, parameters: [String : AnyObject], completionHandler: (result: AnyObject?, error: ClientError?) -> Void) -> NSURLSessionDataTask {
+    func taskForGETMethod(method: String, parameters: [String : AnyObject], completion: (result: AnyObject?, error: ClientError?) -> Void) -> NSURLSessionDataTask {
         
-        /* 1. Set the parameters */
-        //var mutableParameters = parameters
-        //mutableParameters[ParameterKeys.ApiKey] = Constants.ApiKey
+        /* 1. Set the parameters: No parameters */
         
         /* 2/3. Build the URL and configure the request */
         let urlString = Constants.BaseURLSecure + method + escapedParameters(parameters)
-        print("UrlString: \(urlString)")
         let url = NSURL(string: urlString)!
         let request = NSMutableURLRequest(URL: url)
         request.addValue(Constants.AppId, forHTTPHeaderField: httpHeaderFields.AppId)
@@ -32,9 +29,9 @@ class ParseClient: GenericClient {
         let task = session.dataTaskWithRequest(request) { data, response, error in
             
             /* GUARD: Was there an error? */
-            guard (error == nil) else {
+            guard error == nil else {
                 print("There was an error with your request: \(error)")
-                completionHandler(result: nil, error: .ErrorReturned)
+                completion(result: nil, error: .ErrorReturned)
                 return
             }
             
@@ -47,19 +44,22 @@ class ParseClient: GenericClient {
                 } else {
                     print("Your request returned an invalid response")
                 }
-                completionHandler(result: nil, error: .InvalidResponse)
+                if let data = data {
+                    print("Data: \(NSString(data: data, encoding: NSUTF8StringEncoding))")
+                }
+                completion(result: nil, error: .InvalidResponse)
                 return
             }
             
             /* GUARD: Was there any data returned? */
             guard let data = data else {
                 print("No data was returned by the request")
-                completionHandler(result: nil, error: .InvalidData)
+                completion(result: nil, error: .InvalidData)
                 return
             }
             
             /* 5/6. Parse the data and use the data (happens in completion handler) */
-            self.parseJSONWithCompletionHandler(data, completionHandler: completionHandler)
+            self.parseJSON(data, completion: completion)
         }
         
         /* 7. Start the request */
@@ -68,7 +68,7 @@ class ParseClient: GenericClient {
         return task
     }
     
-    func taskForPOSTMethod(method: String, jsonBody: [String : AnyObject], completionHandler: (result: AnyObject?, error: ClientError?) -> Void) -> NSURLSessionDataTask {
+    func taskForPOSTMethod(method: String, jsonBody: [String : AnyObject], completion: (result: AnyObject?, error: ClientError?) -> Void) -> NSURLSessionDataTask {
         
         /* 1. Set the parameters: No parameters */
         
@@ -78,8 +78,8 @@ class ParseClient: GenericClient {
         
         let request = NSMutableURLRequest(URL: url)
         request.HTTPMethod = "POST"
-        request.addValue(Constants.AppId, forHTTPHeaderField: "X-Parse-Application-Id")
-        request.addValue(Constants.ApiKey, forHTTPHeaderField: "X-Parse-REST-API-Key")
+        request.addValue(Constants.AppId, forHTTPHeaderField: httpHeaderFields.AppId)
+        request.addValue(Constants.ApiKey, forHTTPHeaderField: httpHeaderFields.ApiKey)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         
         do {
@@ -91,9 +91,9 @@ class ParseClient: GenericClient {
         let task = session.dataTaskWithRequest(request) { data, response, error in
             
             /* GUARD: Was there an error? */
-            guard (error == nil) else {
+            guard error == nil else {
                 print("There was an error with your request: \(error)")
-                completionHandler(result: nil, error: .ErrorReturned)
+                completion(result: nil, error: .ErrorReturned)
                 return
             }
             
@@ -102,16 +102,15 @@ class ParseClient: GenericClient {
                 if statusCode < 200 || statusCode > 299 {
                     if let response = response as? NSHTTPURLResponse {
                         print("Your request returned an invalid response! Status code: \(response.statusCode)")
-                        print("Your request returned an invalid response! Response: \(response)")
-                        if let data = data {
-                            print("data: \(NSString(data: data, encoding: NSUTF8StringEncoding))")
-                        }
                     } else if let response = response {
                         print("Your request returned an invalid response! Response: \(response)")
                     } else {
                         print("Your request returned an invalid response")
                     }
-                    completionHandler(result: nil, error: .InvalidResponse)
+                    if let data = data {
+                        print("Data: \(NSString(data: data, encoding: NSUTF8StringEncoding))")
+                    }
+                    completion(result: nil, error: .InvalidResponse)
                     return
                 }
             }
@@ -119,14 +118,12 @@ class ParseClient: GenericClient {
             /* GUARD: Was there any data returned? */
             guard let data = data else {
                 print("No data was returned by the request")
-                completionHandler(result: nil, error: .InvalidData)
+                completion(result: nil, error: .InvalidData)
                 return
             }
             
-            // Udacity requires to remove the 5 first characters of the data
-            
             /* 5. Parse the data - Part 1: convert the JSON in a Foundation Object */
-            self.parseJSONWithCompletionHandler(data, completionHandler: completionHandler)
+            self.parseJSON(data, completion: completion)
         }
         
         /* 7. Start the request */
@@ -135,19 +132,18 @@ class ParseClient: GenericClient {
         return task
     }
     
-    func taskForPUTMethod(method: String, jsonBody: [String : AnyObject], completionHandler: (result: AnyObject?, error: ClientError?) -> Void) -> NSURLSessionDataTask {
+    func taskForPUTMethod(method: String, jsonBody: [String : AnyObject], completion: (result: AnyObject?, error: ClientError?) -> Void) -> NSURLSessionDataTask {
         
         /* 1. Set the parameters: No parameters */
         
         /* 2/3. Build the URL and configure the request */
         let urlString = Constants.BaseURLSecure + method
-        print("urlString: \(urlString)")
         let url = NSURL(string: urlString)!
         
         let request = NSMutableURLRequest(URL: url)
         request.HTTPMethod = "PUT"
-        request.addValue(Constants.AppId, forHTTPHeaderField: "X-Parse-Application-Id")
-        request.addValue(Constants.ApiKey, forHTTPHeaderField: "X-Parse-REST-API-Key")
+        request.addValue(Constants.AppId, forHTTPHeaderField: httpHeaderFields.AppId)
+        request.addValue(Constants.ApiKey, forHTTPHeaderField: httpHeaderFields.ApiKey)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         
         do {
@@ -159,9 +155,9 @@ class ParseClient: GenericClient {
         let task = session.dataTaskWithRequest(request) { data, response, error in
             
             /* GUARD: Was there an error? */
-            guard (error == nil) else {
+            guard error == nil else {
                 print("There was an error with your request: \(error)")
-                completionHandler(result: nil, error: .ErrorReturned)
+                completion(result: nil, error: .ErrorReturned)
                 return
             }
             
@@ -170,16 +166,15 @@ class ParseClient: GenericClient {
                 if statusCode < 200 || statusCode > 299 {
                     if let response = response as? NSHTTPURLResponse {
                         print("Your request returned an invalid response! Status code: \(response.statusCode)")
-                        print("Your request returned an invalid response! Response: \(response)")
-                        if let data = data {
-                            print("data: \(NSString(data: data, encoding: NSUTF8StringEncoding))")
-                        }
                     } else if let response = response {
                         print("Your request returned an invalid response! Response: \(response)")
                     } else {
                         print("Your request returned an invalid response")
                     }
-                    completionHandler(result: nil, error: .InvalidResponse)
+                    if let data = data {
+                        print("Data: \(NSString(data: data, encoding: NSUTF8StringEncoding))")
+                    }
+                    completion(result: nil, error: .InvalidResponse)
                     return
                 }
             }
@@ -187,14 +182,13 @@ class ParseClient: GenericClient {
             /* GUARD: Was there any data returned? */
             guard let data = data else {
                 print("No data was returned by the request")
-                completionHandler(result: nil, error: .InvalidData)
+                completion(result: nil, error: .InvalidData)
                 return
             }
             
-            // Udacity requires to remove the 5 first characters of the data
-            
             /* 5. Parse the data - Part 1: convert the JSON in a Foundation Object */
-            self.parseJSONWithCompletionHandler(data, completionHandler: completionHandler)
+            self.parseJSON(data, completion: completion)
+
         }
         
         /* 7. Start the request */

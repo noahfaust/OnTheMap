@@ -14,6 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     
+    /* The current user StudentInformation struct is in the app delegate as it is used by the Udacity and Parse API Client */
     var userInfo: StudentInformation? = nil
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {

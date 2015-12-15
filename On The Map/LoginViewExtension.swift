@@ -8,8 +8,7 @@
 
 extension LoginViewController: UITextFieldDelegate {
     
-    /* Extension with UI merthods: Tap Recognition and Text field delegation */
-    
+    /* Extension with UI methods: Tap Recognition and Text field delegation */
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         if textField.isKindOfClass(LoginTextField) {
             

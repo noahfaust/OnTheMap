@@ -12,7 +12,7 @@ extension ParseClient {
         return studentLocations.isEmpty || newCheckInSinceLastRefresh
     }
     
-    func getStudentLocations(completionHandler: (success: Bool, errorString: String?) -> Void) {
+    func getStudentLocations(completion: (success: Bool, errorString: String?) -> Void) {
         
         /* 1. Specify parameters, method (if has {key}), and HTTP body (if POST) */
         let parameters: [String : AnyObject] = [ParameterKeys.Limit: 100, ParameterKeys.Order: "-\(JSONKeys.UpdatedAt)"]
@@ -22,28 +22,28 @@ extension ParseClient {
         taskForGETMethod(method, parameters: parameters) { result, error in
             
             guard error == nil else {
-                completionHandler(success: false, errorString: "The student locations couldn't be loaded")
+                completion(success: false, errorString: "The student locations couldn't be loaded")
                 return
             }
             
             guard let result = result else {
-                completionHandler(success: false, errorString: "The student locations couldn't be loaded")
+                completion(success: false, errorString: "The student locations couldn't be loaded")
                 return
             }
             
             guard let results = result[JSONKeys.Results] as? [[String : AnyObject]] else {
                 print("Could not find key 'results' in  parsedResult: \(result)")
-                completionHandler(success: false, errorString: "The student locations couldn't be loaded")
+                completion(success: false, errorString: "The student locations couldn't be loaded")
                 return
             }
             
             self.studentLocations = StudentInformation.studentinfoFromResults(results)
             self.newCheckInSinceLastRefresh = false
-            completionHandler(success: true, errorString: nil)
+            completion(success: true, errorString: nil)
         }
     }
     
-    func getCurrentLocation(userId: String, completionHandler: (success: Bool, errorString: String?) -> Void) {
+    func getCurrentLocation(userId: String, completion: (success: Bool, errorString: String?) -> Void) {
         /* 1. Specify parameters, method, and HTTP body */
         
         let whereParameter: [String : String] = [JSONKeys.UniqueKey: userId]
@@ -51,7 +51,6 @@ extension ParseClient {
         do {
             whereParameterJSON = try! NSString(data: NSJSONSerialization.dataWithJSONObject(whereParameter, options: .PrettyPrinted), encoding: NSUTF8StringEncoding)!
         }
-        print("whereParameterJSON: \(whereParameterJSON)")
         
         let parameters: [String : AnyObject] = [ParameterKeys.Where: whereParameterJSON]
         let method : String = Methods.StudentLocation
@@ -60,46 +59,33 @@ extension ParseClient {
         taskForGETMethod(method, parameters: parameters) { result, error in
             
             guard error == nil else {
-                completionHandler(success: false, errorString: "Current location not retrieved")
+                completion(success: false, errorString: "Current location not retrieved")
                 return
             }
             
             guard let result = result else {
-                completionHandler(success: false, errorString: "Current location not retrieved")
+                completion(success: false, errorString: "Current location not retrieved")
                 return
             }
         
             guard let results = result[JSONKeys.Results] as? [[String : AnyObject]] else {
                 print("Could not find key 'results' in  parsedResult: \(result)")
-                completionHandler(success: false, errorString: "Current location not retrieved")
+                completion(success: false, errorString: "Current location not retrieved")
                 return
             }
             
             guard let current = results.first else {
                 print("No result found in results: \(results)")
-                completionHandler(success: false, errorString: "Current location not retrieved")
+                completion(success: false, errorString: "Current location not retrieved")
                 return
             }
-                
-            //print("getCurrentLocation RESULTS: \(results)")
+            self.appDelegate.userInfo?.setLocation(current)
             
-            if let objectId = current[JSONKeys.ObjectId] as? String {
-                self.appDelegate.userInfo?.objectId = objectId
-            }
-            
-            if let latitude = current[JSONKeys.Latitude] as? Double {
-                self.appDelegate.userInfo?.latitude = latitude
-            }
-            
-            if let longitude = current[JSONKeys.Longitude] as? Double {
-                self.appDelegate.userInfo?.latitude = longitude
-            }
-            print("userInfo: \(self.appDelegate.userInfo)")
-            completionHandler(success: true, errorString: nil)
+            completion(success: true, errorString: nil)
         }
     }
     
-    func postStudentLocation(completionHandler: (success: Bool, errorString: String?) -> Void) {
+    func postStudentLocation(completion: (success: Bool, errorString: String?) -> Void) {
         /* 1. Specify parameters (none), method, and HTTP body */
         let method = Methods.StudentLocation
         if let userInfo = self.appDelegate.userInfo {
@@ -111,24 +97,23 @@ extension ParseClient {
                 JSONKeys.Latitude: userInfo.latitude!,
                 JSONKeys.Longitude: userInfo.longitude!,
                 JSONKeys.MediaURL: userInfo.mediaURL!]
-            print("jsonBody: \(jsonBody)")
             
             taskForPOSTMethod(method, jsonBody: jsonBody) { result, error in
                 
                 /* 3. Send the desired value(s) to completion handler */
                 guard error == nil else {
-                    completionHandler(success: false, errorString: "Check in failed")
+                    completion(success: false, errorString: "Check in failed")
                     return
                 }
                 
                 guard let result = result else {
-                    completionHandler(success: false, errorString: "Current location not retrieved")
+                    completion(success: false, errorString: "Current location not retrieved")
                     return
                 }
 
                 guard let objectId = result[JSONKeys.ObjectId] as? String else {
                     print("Could not find key 'objectId' in  result: \(result)")
-                    completionHandler(success: false, errorString: "Check in failed")
+                    completion(success: false, errorString: "Check in failed")
                     return
                 }
                 
@@ -138,7 +123,7 @@ extension ParseClient {
         }
     }
     
-    func putStudentLocation(completionHandler: (success: Bool, errorString: String?) -> Void) {
+    func putStudentLocation(completion: (success: Bool, errorString: String?) -> Void) {
         var mutableMethod = Methods.StudentLocationObjectId
         mutableMethod = subtituteKeyInMethod(mutableMethod, key: URLKeys.ObjectId, value: self.appDelegate.userInfo!.objectId!)
         
@@ -157,22 +142,22 @@ extension ParseClient {
                 
                 /* 3. Send the desired value(s) to completion handler */
                 guard error == nil else {
-                    completionHandler(success: false, errorString: "Check in failed")
+                    completion(success: false, errorString: "Check in failed")
                     return
                 }
                 
                 guard let result = result else {
-                    completionHandler(success: false, errorString: "Check in failed")
+                    completion(success: false, errorString: "Check in failed")
                     return
                 }
                 
                 guard let _ = result[JSONKeys.UpdatedAt] as? String else {
                     print("Could not find key 'updatedAt' in  result: \(result)")
-                    completionHandler(success: false, errorString: "Check in failed")
+                    completion(success: false, errorString: "Check in failed")
                     return
                 }
                 
-                completionHandler(success: true, errorString: nil)
+                completion(success: true, errorString: nil)
             }
         }
 

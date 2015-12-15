@@ -16,6 +16,7 @@ class LoginViewController: CustomViewController, FBSDKLoginButtonDelegate {
     @IBOutlet weak var emailTextField: LoginTextField!
     @IBOutlet weak var passwordTextField: LoginTextField!
     @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var facebookLoginButton: FBSDKLoginButton!
     
     var tapRecognizer: UITapGestureRecognizer? = nil
     
@@ -25,30 +26,27 @@ class LoginViewController: CustomViewController, FBSDKLoginButtonDelegate {
         loginButton.delegate = self
         emailTextField.delegate = self
         passwordTextField.delegate = self
+        facebookLoginButton.delegate = self
+        
+        // When the facebook authentication has been used before in the app, the login screen appear with a facebook logout button
+        FacebookHelper.logout()
         
         /* Configure tap recognizer */
         tapRecognizer = UITapGestureRecognizer(target: self, action: "handleSingleTap:")
         tapRecognizer?.numberOfTapsRequired = 1
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        
+        hideLoadingIndicator()
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        FacebookHelper.logout()
-        
-        hideLoadingIndicator()
         addKeyboardDismissRecognizer()
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         
-        hideLoadingIndicator()
         removeKeyboardDismissRecognizer()
     }
     
@@ -68,14 +66,12 @@ class LoginViewController: CustomViewController, FBSDKLoginButtonDelegate {
         
         // Request a new session using Udacity API with Email and Password
         UdacityClient.sharedInstance().postNewSession(emailTextField.text!, password: passwordTextField.text!) { success, errorString -> Void in
-
-        //UdacityClient.sharedInstance().authenticateUser(emailTextField.text!, password: passwordTextField.text!) { success, errorString -> Void in
             self.loginCompletionHandler(success, errorString: errorString)
         }
     }
     
     // Required method to implemenent the facebook login button
-    @objc func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
+    func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
         guard error == nil else {
             promtAlert("There was an error with your facebook login")
             return
@@ -85,14 +81,15 @@ class LoginViewController: CustomViewController, FBSDKLoginButtonDelegate {
             return
         }
         
-        showLoadingIndicator()
-        
         // Request a new session using Udacity API with the facebook token,
         UdacityClient.sharedInstance().postNewSession(result.token.tokenString) { success, errorString -> Void in
-
-        //UdacityClient.sharedInstance().authenticateUserWithFacebook(result.token.tokenString) { success, errorString -> Void in
             self.loginCompletionHandler(success, errorString: errorString)
         }
+    }
+    
+    func loginButtonWillLogin(loginButton: FBSDKLoginButton!) -> Bool {
+        self.showLoadingIndicator()
+        return true
     }
     
     func loginButtonDidLogOut(loginButton: FBSDKLoginButton!) {
@@ -115,7 +112,7 @@ class LoginViewController: CustomViewController, FBSDKLoginButtonDelegate {
         }
         
         dispatch_async(dispatch_get_main_queue()) {
-            //self.hideLoadingIndicator()
+            self.hideLoadingIndicator()
             self.performSegueWithIdentifier("OpenApp", sender: self)
         }
     }

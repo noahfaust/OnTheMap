@@ -16,16 +16,18 @@ class CheckInViewController: CustomViewController {
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var bottomButton: InformationPostingButton!
     @IBOutlet weak var titleView: UIView!
+    @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var blockingView: UIView!
     
     var stage: InformationPostingStage = .Find
-    
-    @IBAction func CancelButtonTouchUp(sender: AnyObject) {
-        self.dismissViewControllerAnimated(true, completion: nil)
-    }
+    var address: String = ""
+    var location: CLLocation? = nil
+    var mediaURL: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
         inputTextBox.delegate = self
+        hideLoadingIndicator()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -42,108 +44,131 @@ class CheckInViewController: CustomViewController {
         unsubscribeFromKeyboardNotifications()
     }
     
+    @IBAction func cancelButtonTouchUp(sender: AnyObject) {
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
     
     @IBAction func bottomButtonTouchUp(sender: UIButton) {
         if stage == .Find {
-            guard let address = inputTextBox.text?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()) where !inputTextBox.text!.unicodeScalars.isEmpty else {
+            let address = inputTextBox.getTrimmedText()
+            guard !inputTextBox.getTrimmedText().unicodeScalars.isEmpty else {
+                promtAlert("Please enter your location")
                 return
             }
-            
-            let geoCoder = CLGeocoder()
-            geoCoder.geocodeAddressString(address) { placemarks, error -> Void in
-                
-                guard let places = placemarks where places.count == 1 else {
-                    self.promtAlert("The location you entered could not be geocoded, please refine your location")
-                    return
-                }
-                
-                if let place = places.first {
-                    
-                    if let location = place.location {
-                        
-                        self.appDelegate.userInfo!.setLocation(location, mapString: address)
-                        
-                        var annotations = [MKPointAnnotation]()
-                        annotations.append(self.appDelegate.userInfo!.getMapViewAnnotation()!)
-                        
-                        dispatch_async(dispatch_get_main_queue()) {self.mapView.hidden = false
-                            self.titleView.hidden = true
-                            self.mapView.addAnnotations(annotations)
-                            self.mapView.setRegion(MKCoordinateRegion(center: location.coordinate, span: MKCoordinateSpan(latitudeDelta: CLLocationDegrees(0.1), longitudeDelta: CLLocationDegrees(0.1))), animated: true)
-                            self.switchStage()
-                        }
-                    }
-                }
-            }
+            findAddress(address)
         } else {
-            //print("START SUBMIT")
-            var urlString = inputTextBox.getTrimmedText()
+            let urlString = inputTextBox.getTrimmedText()
             guard  !urlString.unicodeScalars.isEmpty else {
                 promtAlert("Please enter a link to share")
                 return
             }
-            
-            guard let mediaURL = validateURL(urlString) else {
-                promtAlert("The link your entered is invalid, please refine your link")
-                return
-            }
-            
-            appDelegate.userInfo!.mediaURL = mediaURL
-            
-            print("ObjectId: \(appDelegate.userInfo!.objectId) | Latitude: \(appDelegate.userInfo!.latitude) | Longitude: \(appDelegate.userInfo!.longitude)")
-            
-            if let userInfo = appDelegate.userInfo {
-                if userInfo.objectId == nil || userInfo.latitude == nil || userInfo.longitude == nil {
-                    print("START POST INFO")
-                    ParseClient.sharedInstance().postStudentLocation() { success, errorString -> Void in
-                        print("Success: \(success)")
-                        if success {
-                            ParseClient.sharedInstance().newCheckInSinceLastRefresh = true
-                            dispatch_async(dispatch_get_main_queue()) {
-                                self.dismissViewControllerAnimated(true, completion: nil)
-                            }
-                        } else {
-                            dispatch_async(dispatch_get_main_queue()) {
-                                self.promtAlert(errorString!)
-                            }
-                        }
-                    }
-                } else {
-                    print("START PUT INFO")
-                    ParseClient.sharedInstance().putStudentLocation() { success, errorString -> Void in
-                        print("Success: \(success)")
-                        if success {
-                            ParseClient.sharedInstance().newCheckInSinceLastRefresh = true
-                            dispatch_async(dispatch_get_main_queue()) {
-                                self.dismissViewControllerAnimated(true, completion: nil)
-                            }
-                        } else {
-                            dispatch_async(dispatch_get_main_queue()) {
-                                self.promtAlert(errorString!)
-                            }
-                        }
-                    }
-                }
+            submitLocation(urlString)
+        }
+    }
+    
+    private func submitLocation(urlString: String) {
+        
+        guard let validURL = validateURL(urlString) else {
+            promtAlert("The link your entered is invalid, please refine your link")
+            return
+        }
+        mediaURL = validURL
+        
+        appDelegate.userInfo!.setLocation(location!, mapString: address, mediaURL: mediaURL)
+        
+        if let userInfo = appDelegate.userInfo {
+            if userInfo.objectId == nil {
+                ParseClient.sharedInstance().postStudentLocation(submitCompletionHandler)
+            } else {
+                ParseClient.sharedInstance().putStudentLocation(submitCompletionHandler)
             }
         }
     }
     
-    func switchStage() {
+    private func submitCompletionHandler(success: Bool, errorString: String?) {
+        if success {
+            ParseClient.sharedInstance().newCheckInSinceLastRefresh = true
+            dispatch_async(dispatch_get_main_queue()) {
+                self.dismissViewControllerAnimated(true, completion: nil)
+            }
+        } else {
+            dispatch_async(dispatch_get_main_queue()) {
+                self.promtAlert(errorString!)
+            }
+        }
+    }
+    
+    private func findAddress(address: String) {
+        showLoadingIndicator()
+        geocode(address) { location -> Void in
+            guard let location = location else {
+                self.promtAlert("The location you entered could not be geocoded, please refine your location")
+                return
+            }
+            
+            self.address = address
+            self.location = location
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = location.coordinate
+            
+            dispatch_async(dispatch_get_main_queue()) {
+                self.mapView.addAnnotation(annotation)
+                self.mapView.setRegion(MKCoordinateRegion(center: location.coordinate, span: MKCoordinateSpan(latitudeDelta: CLLocationDegrees(0.1), longitudeDelta: CLLocationDegrees(0.1))), animated: true)
+                self.setStageToSubmit()
+            }
+        }
+    }
+    
+    private func geocode(address: String, completion: (location: CLLocation?) -> Void) {
+        let geoCoder = CLGeocoder()
+        geoCoder.geocodeAddressString(address) { placemarks, error -> Void in
+            
+            guard let place = placemarks?.first else {
+                completion(location: nil)
+                return
+            }
+            
+            completion(location: place.location)
+        }
+    }
+    
+    func setStageToSubmit() {
         stage = .Submit
         bottomButton.setStageToSubmit()
         inputTextBox.setStageToSubmit()
+        titleView.hidden = true
+        mapView.hidden = false
+        hideLoadingIndicator()
     }
 }
 
 extension CheckInViewController: UITextFieldDelegate {
 
     func textFieldShouldReturn(textField: UITextField) -> Bool {
-        self.view.endEditing(true)
+        view.endEditing(true)
         bottomButtonTouchUp(bottomButton)
         return true
     }
     
     override func prefersStatusBarHidden() -> Bool {
         return true
+    }
+}
+
+extension CheckInViewController {
+    
+    // MARK: Show and Hide loading activity indicator
+    func showLoadingIndicator() {
+        view.bringSubviewToFront(blockingView)
+        blockingView.hidden = false
+        
+        view.bringSubviewToFront(loadingIndicator)
+        loadingIndicator.hidden = false
+        loadingIndicator.startAnimating()
+    }
+    func hideLoadingIndicator() {
+        blockingView.hidden = true
+        loadingIndicator.hidden = true
+        loadingIndicator.stopAnimating()
     }
 }

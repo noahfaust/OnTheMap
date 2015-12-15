@@ -13,9 +13,11 @@ class UdacityClient: GenericClient {
     /* Authentication Info */
     var sessionId: String? = nil
     var userId: String? = nil
-    //var userInfo: StudentInformation? = nil
+    var facebookToken: String? = nil
     
-    func taskForGETMethod(method: String, completionHandler: (result: AnyObject?, error: ClientError?) -> Void) -> NSURLSessionDataTask {
+    func taskForGETMethod(method: String, completion: (result: AnyObject?, error: ClientError?) -> Void) -> NSURLSessionDataTask {
+        
+        print("taskForGETMethod START")
         
         /* 1. Set the parameters */
         
@@ -28,9 +30,9 @@ class UdacityClient: GenericClient {
         let task = session.dataTaskWithRequest(request) { data, response, error in
             
             /* GUARD: Was there an error? */
-            guard (error == nil) else {
+            guard error == nil else {
                 print("There was an error with your request: \(error)")
-                completionHandler(result: nil, error: .ErrorReturned)
+                completion(result: nil, error: .ErrorReturned)
                 return
             }
             
@@ -44,15 +46,16 @@ class UdacityClient: GenericClient {
                     } else {
                         print("Your request returned an invalid response")
                     }
-                    completionHandler(result: nil, error: .InvalidResponse)
+                    completion(result: nil, error: .InvalidResponse)
                     return
                 }
             }
+
             
             /* GUARD: Was there any data returned? */
             guard let data = data else {
                 print("No data was returned by the request")
-                completionHandler(result: nil, error: .InvalidData)
+                completion(result: nil, error: .InvalidData)
                 return
             }
             
@@ -60,7 +63,7 @@ class UdacityClient: GenericClient {
             let newData = data.subdataWithRange(NSMakeRange(5, data.length - 5))
             
             /* 5. Parse the data - Part 1: convert the JSON in a Foundation Object */
-            self.parseJSONWithCompletionHandler(newData, completionHandler: completionHandler)
+            self.parseJSON(newData, completion: completion)
         }
         
         /* 7. Start the request */
@@ -70,7 +73,7 @@ class UdacityClient: GenericClient {
     }
 
     
-    func taskForPOSTMethod(method: String, jsonBody: [String:AnyObject], completionHandler: (result: AnyObject?, error: ClientError?) -> Void) -> NSURLSessionDataTask {
+    func taskForPOSTMethod(method: String, jsonBody: [String:AnyObject], completion: (result: AnyObject?, error: ClientError?) -> Void) -> NSURLSessionDataTask {
         
         /* 1. Set the parameters: No parameters */
         
@@ -90,9 +93,9 @@ class UdacityClient: GenericClient {
         let task = session.dataTaskWithRequest(request) { data, response, error in
             
             /* GUARD: Was there an error? */
-            guard (error == nil) else {
+            guard error == nil else {
                 print("There was an error with your request: \(error)")
-                completionHandler(result: nil, error: .ErrorReturned)
+                completion(result: nil, error: .ErrorReturned)
                 return
             }
             
@@ -101,7 +104,7 @@ class UdacityClient: GenericClient {
                 if statusCode < 200 || statusCode > 299 {
                     if statusCode == 403 {
                         // Udacity returns a 403 error in case login and password are invalid
-                        completionHandler(result: nil, error: .InvalidCredentials)
+                        completion(result: nil, error: .InvalidCredentials)
                         return
                     } else if let response = response as? NSHTTPURLResponse {
                         print("Your request returned an invalid response! Status code: \(response.statusCode)")
@@ -110,7 +113,7 @@ class UdacityClient: GenericClient {
                     } else {
                         print("Your request returned an invalid response")
                     }
-                    completionHandler(result: nil, error: .InvalidResponse)
+                    completion(result: nil, error: .InvalidResponse)
                     return
                 }
             }
@@ -118,7 +121,7 @@ class UdacityClient: GenericClient {
             /* GUARD: Was there any data returned? */
             guard let data = data else {
                 print("No data was returned by the request")
-                completionHandler(result: nil, error: .InvalidData)
+                completion(result: nil, error: .InvalidData)
                 return
             }
             
@@ -126,7 +129,7 @@ class UdacityClient: GenericClient {
             let newData = data.subdataWithRange(NSMakeRange(5, data.length - 5))
             
             /* 5. Parse the data - Part 1: convert the JSON in a Foundation Object */
-            self.parseJSONWithCompletionHandler(newData, completionHandler: completionHandler)
+            self.parseJSON(newData, completion: completion)
         }
         
         /* 7. Start the request */
@@ -135,7 +138,7 @@ class UdacityClient: GenericClient {
         return task
     }
     
-    func taskForDELETEMethod(method: String, completionHandler: (result: AnyObject?, error: ClientError?) -> Void) -> NSURLSessionDataTask {
+    func taskForDELETEMethod(method: String, completion: (result: AnyObject?, error: ClientError?) -> Void) -> NSURLSessionDataTask {
         
         /* 1. Set the parameters: No parameters */
         
@@ -158,7 +161,7 @@ class UdacityClient: GenericClient {
         let task = session.dataTaskWithRequest(request) { data, response, error in
             
             /* GUARD: Was there an error? */
-            guard (error == nil) else {
+            guard error == nil else {
                 print("There was an error with your request: \(error)")
                 return
             }
@@ -173,7 +176,7 @@ class UdacityClient: GenericClient {
                     } else {
                         print("Your request returned an invalid response")
                     }
-                    completionHandler(result: nil, error: .InvalidResponse)
+                    completion(result: nil, error: .InvalidResponse)
                     return
                 }
             }
@@ -181,7 +184,7 @@ class UdacityClient: GenericClient {
             /* GUARD: Was there any data returned? */
             guard let data = data else {
                 print("No data was returned by the request!")
-                completionHandler(result: nil, error: .InvalidData)
+                completion(result: nil, error: .InvalidData)
                 return
             }
             
@@ -189,7 +192,7 @@ class UdacityClient: GenericClient {
             let newData = data.subdataWithRange(NSMakeRange(5, data.length - 5))
             
             /* 5. Parse the data - Part 1: convert the JSON in a Foundation Object */
-            self.parseJSONWithCompletionHandler(newData, completionHandler: completionHandler)
+            self.parseJSON(newData, completion: completion)
         }
         
         /* 7. Start the request */

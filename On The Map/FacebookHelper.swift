@@ -12,6 +12,7 @@ import FBSDKLoginKit
 class FacebookHelper {
     
     class func logout() {
+        UdacityClient.sharedInstance().facebookToken = nil
         let manager = FBSDKLoginManager()
         manager.logOut()
     }

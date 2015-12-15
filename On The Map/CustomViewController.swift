@@ -17,17 +17,20 @@ class CustomViewController: UIViewController {
         appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     }
     
-    func validateURL(string: String) -> String? {
-        print("ValidateURL string: \(string)")
+    /* Helper: validate URL */
+    func validateURL(var string: String) -> String? {
+        
         let datadetector = try! NSDataDetector(types: NSTextCheckingType.Link.rawValue)
         let range = NSMakeRange(0, string.unicodeScalars.count)
         
         guard let result = datadetector.firstMatchInString(string, options: .Anchored, range: range) else {
-            return nil
+            if !string.hasPrefix("www.") {
+                return  validateURL("www.\(string)")
+            } else {
+                return nil
+            }
         }
         
-        print("ValidateURL result.URL: \(result.URL?.absoluteString)")
-        print("NSEqualRanges: \(NSEqualRanges(range, result.range))")
         guard let url = result.URL?.absoluteString where NSEqualRanges(range, result.range) else {
             return nil
         }

@@ -137,6 +137,7 @@
                     <navigationItem key="navigationItem" id="Wg4-qG-zBI"/>
                     <connections>
                         <outlet property="emailTextField" destination="1xW-2K-bSK" id="RDk-eX-7TA"/>
+                        <outlet property="facebookLoginButton" destination="yod-gS-c9z" id="6PU-fe-CbY"/>
                         <outlet property="loadingIndicator" destination="JPc-Xm-C02" id="ybU-JV-jWB"/>
                         <outlet property="loginButton" destination="yod-gS-c9z" id="k1P-Nr-RGP"/>
                         <outlet property="passwordTextField" destination="Ow9-b4-OUf" id="o9P-Au-MkL"/>
@@ -159,10 +160,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="syc-fI-zAB">
-                                <rect key="frame" x="281.5" y="281.5" width="37" height="37"/>
-                                <color key="color" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </activityIndicatorView>
                             <view hidden="YES" alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ICx-5s-2Em">
                                 <rect key="frame" x="0.0" y="64" width="600" height="487"/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -170,6 +167,10 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="dSa-kY-edT">
                                 <rect key="frame" x="0.0" y="64" width="600" height="487"/>
                             </mapView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="syc-fI-zAB">
+                                <rect key="frame" x="281" y="282" width="37" height="37"/>
+                                <color key="color" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -199,7 +200,6 @@
                             </barButtonItem>
                             <barButtonItem image="pin" id="Opo-wk-iso">
                                 <connections>
-                                    <action selector="pinButtonTouchUp:" destination="DaE-K5-22V" id="rXc-8W-SLL"/>
                                     <segue destination="yNR-zI-BsU" kind="presentation" id="ViL-J7-qFZ"/>
                                 </connections>
                             </barButtonItem>
@@ -310,7 +310,6 @@
                             </barButtonItem>
                             <barButtonItem image="pin" id="tnj-Ur-3Af">
                                 <connections>
-                                    <action selector="pinButtonTouchUp:" destination="dcA-B7-Vsg" id="Ghb-BH-o81"/>
                                     <segue destination="yNR-zI-BsU" kind="presentation" id="Aqz-ET-Qui"/>
                                 </connections>
                             </barButtonItem>
@@ -338,13 +337,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="cb2-xa-C0w">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="435"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="445"/>
                             </mapView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d6P-bf-KVL">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="435"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="445"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dmh-fl-FBY">
-                                        <rect key="frame" x="0.0" y="147" width="600" height="141"/>
+                                        <rect key="frame" x="0.0" y="152" width="600" height="141"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Where are you" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rgz-Mj-86c">
                                                 <rect key="frame" x="0.0" y="0.0" width="600" height="47"/>
@@ -387,34 +386,12 @@
                                     <constraint firstItem="Dmh-fl-FBY" firstAttribute="centerY" secondItem="d6P-bf-KVL" secondAttribute="centerY" id="pra-fb-gGe"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3QV-Sy-5Ff">
-                                <rect key="frame" x="0.0" y="535" width="600" height="65"/>
-                                <subviews>
-                                    <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uMn-E5-yxc" customClass="InformationPostingButton" customModule="On_The_Map" customModuleProvider="target">
-                                        <rect key="frame" x="212.5" y="10" width="175" height="35"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="35" id="nig-px-XyD"/>
-                                            <constraint firstAttribute="width" constant="175" id="uE3-lc-sYh"/>
-                                        </constraints>
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <state key="normal" title="Find on the Map">
-                                            <color key="titleColor" red="0.2399670559" green="0.47057841810000001" blue="0.60384615379999995" alpha="1" colorSpace="calibratedRGB"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="bottomButtonTouchUp:" destination="yNR-zI-BsU" eventType="touchUpInside" id="6Xk-IH-NcQ"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" red="0.2399670559" green="0.47057841810000001" blue="0.60384615379999995" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstItem="uMn-E5-yxc" firstAttribute="top" secondItem="3QV-Sy-5Ff" secondAttribute="top" constant="10" id="5ws-Xy-8I5"/>
-                                    <constraint firstItem="uMn-E5-yxc" firstAttribute="centerX" secondItem="3QV-Sy-5Ff" secondAttribute="centerX" id="kDc-cD-dSq"/>
-                                    <constraint firstAttribute="bottom" secondItem="uMn-E5-yxc" secondAttribute="bottom" constant="20" id="mfu-rg-Md1"/>
-                                </constraints>
+                            <view hidden="YES" alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BRD-mN-bc2">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="445"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter your location here" textAlignment="center" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="iCw-k9-OS4" customClass="InformationPostingTextField" customModule="On_The_Map" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="435" width="600" height="100"/>
+                                <rect key="frame" x="0.0" y="445" width="600" height="100"/>
                                 <color key="backgroundColor" red="0.2399670559" green="0.47057841810000001" blue="0.60384615379999995" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -431,33 +408,58 @@
                                     <color key="titleColor" red="0.2399670559" green="0.47057841810000001" blue="0.60384615379999995" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="CancelButtonTouchUp:" destination="yNR-zI-BsU" eventType="touchUpInside" id="XU1-I9-9er"/>
+                                    <action selector="cancelButtonTouchUp:" destination="yNR-zI-BsU" eventType="touchUpInside" id="Oth-vx-kIB"/>
                                 </connections>
                             </button>
+                            <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uMn-E5-yxc" customClass="InformationPostingButton" customModule="On_The_Map" customModuleProvider="target">
+                                <rect key="frame" x="213" y="545" width="175" height="35"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="35" id="nig-px-XyD"/>
+                                    <constraint firstAttribute="width" constant="175" id="uE3-lc-sYh"/>
+                                </constraints>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Find on the Map">
+                                    <color key="titleColor" red="0.2399670559" green="0.47057841810000001" blue="0.60384615379999995" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="bottomButtonTouchUp:" destination="yNR-zI-BsU" eventType="touchUpInside" id="6Xk-IH-NcQ"/>
+                                </connections>
+                            </button>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="TIU-ak-RNd">
+                                <rect key="frame" x="281" y="282" width="37" height="37"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="0.2399670559" green="0.47057841810000001" blue="0.60384615379999995" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="d6P-bf-KVL" firstAttribute="leading" secondItem="tEQ-ly-ay8" secondAttribute="leadingMargin" constant="-20" id="0Cm-GU-ada"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="3QV-Sy-5Ff" secondAttribute="trailing" constant="-20" id="3Mf-Xf-Igi"/>
                             <constraint firstItem="iCw-k9-OS4" firstAttribute="top" secondItem="cb2-xa-C0w" secondAttribute="bottom" id="4ZK-qY-a3u"/>
                             <constraint firstItem="d6P-bf-KVL" firstAttribute="top" secondItem="tEQ-ly-ay8" secondAttribute="topMargin" id="4vb-0C-FL3"/>
-                            <constraint firstItem="AQE-tt-51S" firstAttribute="top" secondItem="3QV-Sy-5Ff" secondAttribute="bottom" id="7ha-Ri-oI8"/>
+                            <constraint firstItem="AQE-tt-51S" firstAttribute="top" secondItem="uMn-E5-yxc" secondAttribute="bottom" constant="20" id="63f-QT-PGP"/>
+                            <constraint firstItem="iCw-k9-OS4" firstAttribute="top" secondItem="BRD-mN-bc2" secondAttribute="bottom" id="8K2-pd-m9O"/>
                             <constraint firstItem="iCw-k9-OS4" firstAttribute="top" secondItem="d6P-bf-KVL" secondAttribute="bottom" id="8iC-AN-FhT"/>
+                            <constraint firstItem="uMn-E5-yxc" firstAttribute="top" secondItem="iCw-k9-OS4" secondAttribute="bottom" id="8mZ-3B-k9u"/>
                             <constraint firstItem="cb2-xa-C0w" firstAttribute="top" secondItem="tEQ-ly-ay8" secondAttribute="topMargin" id="E1P-YB-ZD4"/>
                             <constraint firstAttribute="trailingMargin" secondItem="i6h-lO-bdf" secondAttribute="trailing" constant="20" id="Ey4-4X-Pat"/>
                             <constraint firstAttribute="trailingMargin" secondItem="d6P-bf-KVL" secondAttribute="trailing" constant="-20" id="KAB-uz-X0P"/>
+                            <constraint firstItem="BRD-mN-bc2" firstAttribute="leading" secondItem="tEQ-ly-ay8" secondAttribute="leadingMargin" constant="-20" id="Pkj-Mb-yyj"/>
                             <constraint firstAttribute="trailingMargin" secondItem="iCw-k9-OS4" secondAttribute="trailing" constant="-20" id="QGN-Xz-T0u"/>
                             <constraint firstItem="cb2-xa-C0w" firstAttribute="leading" secondItem="tEQ-ly-ay8" secondAttribute="leadingMargin" constant="-20" id="U3i-pv-AGI"/>
-                            <constraint firstItem="3QV-Sy-5Ff" firstAttribute="leading" secondItem="tEQ-ly-ay8" secondAttribute="leadingMargin" constant="-20" id="cg1-ON-aZB"/>
+                            <constraint firstItem="BRD-mN-bc2" firstAttribute="top" secondItem="tEQ-ly-ay8" secondAttribute="topMargin" id="UGp-vF-5Ci"/>
+                            <constraint firstItem="TIU-ak-RNd" firstAttribute="centerY" secondItem="tEQ-ly-ay8" secondAttribute="centerY" id="aTa-hX-f2Q"/>
+                            <constraint firstItem="TIU-ak-RNd" firstAttribute="centerX" secondItem="tEQ-ly-ay8" secondAttribute="centerX" id="b8R-6Q-vfy"/>
+                            <constraint firstItem="uMn-E5-yxc" firstAttribute="centerX" secondItem="tEQ-ly-ay8" secondAttribute="centerX" id="dt2-OX-0WZ"/>
                             <constraint firstItem="i6h-lO-bdf" firstAttribute="top" secondItem="FNX-Lb-71b" secondAttribute="bottom" constant="20" id="e3h-ya-jpN"/>
                             <constraint firstItem="iCw-k9-OS4" firstAttribute="leading" secondItem="tEQ-ly-ay8" secondAttribute="leadingMargin" constant="-20" id="eht-cC-6lN"/>
-                            <constraint firstItem="3QV-Sy-5Ff" firstAttribute="top" secondItem="iCw-k9-OS4" secondAttribute="bottom" id="ugF-hP-4Rq"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="BRD-mN-bc2" secondAttribute="trailing" constant="-20" id="hpL-pp-BTD"/>
                             <constraint firstAttribute="trailingMargin" secondItem="cb2-xa-C0w" secondAttribute="trailing" constant="-20" id="znb-pg-LXW"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="blockingView" destination="BRD-mN-bc2" id="mkZ-le-xvJ"/>
                         <outlet property="bottomButton" destination="uMn-E5-yxc" id="6LP-PR-rSn"/>
                         <outlet property="inputTextBox" destination="iCw-k9-OS4" id="rvN-Ti-RAr"/>
+                        <outlet property="loadingIndicator" destination="TIU-ak-RNd" id="awK-2M-FlI"/>
                         <outlet property="mapView" destination="cb2-xa-C0w" id="7JV-g6-kns"/>
                         <outlet property="titleView" destination="d6P-bf-KVL" id="oyD-q9-kBD"/>
                     </connections>

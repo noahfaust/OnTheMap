@@ -26,35 +26,37 @@ class MapViewController: CustomViewController {
     override func viewWillAppear(animated: Bool) {
         // TODO: reload data
         if ParseClient.sharedInstance().needRefresh() {
-            
-            showLoadingIndicator()
-            ParseClient.sharedInstance().getStudentLocations { success, error -> Void in
-                self.loadingPins()
-            }
-        } else {
-            loadingPins()
+            loadStudentLocations()
         }
-    }
-    
-    @IBAction func pinButtonTouchUp(sender: AnyObject) {
-        // TODO:
+        else {
+            reloadPins()
+        }
     }
     
     
     @IBAction func refreshButtonTouchUp(sender: AnyObject) {
-        // TODO:
+        loadStudentLocations()
     }
     
     @IBAction func logoutButtonTouchUp(sender: AnyObject) {
         
-        parentViewController?.dismissViewControllerAnimated(true, completion: nil)
-        
-        FacebookHelper.logout()
-        
-        UdacityClient.sharedInstance().deleteSession()
+        parentViewController?.dismissViewControllerAnimated(true) {
+            UdacityClient.sharedInstance().deleteSession() { success, errorString in
+                if UdacityClient.sharedInstance().facebookToken != nil {
+                    FacebookHelper.logout()
+                }
+            }
+        }
     }
     
-    func loadingPins() {
+    func loadStudentLocations() {
+        showLoadingIndicator()
+        ParseClient.sharedInstance().getStudentLocations { success, error -> Void in
+            self.reloadPins()
+        }
+    }
+    
+    private func reloadPins() {
         
         // We will create an MKPointAnnotation for each dictionary in "locations". The
         // point annotations will be stored in this array, and then provided to the map view.
@@ -65,28 +67,7 @@ class MapViewController: CustomViewController {
         // used to create custom structs. Perhaps StudentLocation structs.
         
         for studentInfo in ParseClient.sharedInstance().studentLocations {
-//            
-//            // Notice that the float values are being used to create CLLocationDegree values.
-//            // This is a version of the Double type.
-//            let lat = CLLocationDegrees(studentInfo.latitude!)
-//            let long = CLLocationDegrees(studentInfo.longitude!)
-//            
-//            // The lat and long are used to create a CLLocationCoordinates2D instance.
-//            let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
-//            
-//            let first = studentInfo.firstName
-//            let last = studentInfo.lastName
-//            let mediaURL = studentInfo.mediaURL!
-//            
-//            // Here we create the annotation and set its coordiate, title, and subtitle properties
-//            let annotation = MKPointAnnotation()
-//            annotation.coordinate = coordinate
-//            annotation.title = "\(first) \(last)".stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-//            annotation.subtitle = mediaURL
-            
-            
-            // Finally we place the annotation in an array of annotations.
-//            annotations.append(annotation)
+
             if let annotation = studentInfo.getMapViewAnnotation() {
                 annotations.append(annotation)
             }
@@ -94,6 +75,7 @@ class MapViewController: CustomViewController {
         dispatch_async(dispatch_get_main_queue()) {
             // When the array is complete, we add the annotations to the map.
             // TODO:remove existing annotations : self.mapView.
+            self.mapView.removeAnnotations(self.mapView.annotations)
             
             self.mapView.addAnnotations(annotations)
             
@@ -103,9 +85,7 @@ class MapViewController: CustomViewController {
 }
 
 extension MapViewController: MKMapViewDelegate {
-    // Here we create a view with a "right callout accessory view". You might choose to look into other
-    // decoration alternatives. Notice the similarity between this method and the cellForRowAtIndexPath
-    // method in TableViewDataSource.
+
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         
         let reuseId = "pin"

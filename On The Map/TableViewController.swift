@@ -20,10 +20,6 @@ class TableViewController: CustomViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
-        
-//        if ParseClient.sharedInstance().studentLocations.isEmpty {
-//            loadStudentLocations()
-//        }
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -32,7 +28,6 @@ class TableViewController: CustomViewController {
         if ParseClient.sharedInstance().needRefresh() {
             loadStudentLocations()
         } else {
-        
             hideLoadingIndicator()
             tableView.reloadData()
         }
@@ -48,17 +43,14 @@ class TableViewController: CustomViewController {
         loadStudentLocations()
     }
     
-    @IBAction func pinButtonTouchUp(sender: AnyObject) {
-        // TODO:
-    }
-    
     @IBAction func logoutButtonTouchUp(sender: AnyObject) {
-        
-        parentViewController?.dismissViewControllerAnimated(true, completion: nil)
-        
-        FacebookHelper.logout()
-        
-        UdacityClient.sharedInstance().deleteSession()
+        parentViewController?.dismissViewControllerAnimated(true) {
+            UdacityClient.sharedInstance().deleteSession() { success, errorString in
+                if UdacityClient.sharedInstance().facebookToken != nil {
+                    FacebookHelper.logout()
+                }
+            }
+        }
     }
     
     func loadStudentLocations() {
@@ -106,18 +98,13 @@ extension TableViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         let location = ParseClient.sharedInstance().studentLocations[indexPath.row]
-//        if let url = NSURL(string: location.mediaURL!) {
-//            let svc = SFSafariViewController(URL: url)
-//            self.presentViewController(svc, animated: true, completion: nil)
-//        }
         
         if let urlString = location.mediaURL {
-            print("urlString: \(urlString)")
-            if let url = NSURL(string: urlString) {
-                print("url: \(url.absoluteString)")
-                //let svc = SFSafariViewController(URL: NSURL(string: toOpen)!)
-                let svc = SFSafariViewController(URL: url)
-                self.presentViewController(svc, animated: true, completion: nil)
+            if let validUrl = validateURL(urlString) {
+                if let url = NSURL(string: validUrl) {
+                    let svc = SFSafariViewController(URL: url)
+                    self.presentViewController(svc, animated: true, completion: nil)
+                }
             }
         }
     }

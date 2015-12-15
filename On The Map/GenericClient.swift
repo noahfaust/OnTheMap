@@ -21,7 +21,7 @@ class GenericClient: NSObject {
     }
     
     /* Helper: Given raw JSON, return a usable Foundation object */
-    func parseJSONWithCompletionHandler(data: NSData, completionHandler: (result: AnyObject!, error: ClientError?) -> Void) {
+    func parseJSON(data: NSData, completion: (result: AnyObject!, error: ClientError?) -> Void) {
         
         /* 5. Parse the data - Part 1 */
         var parsedResult: AnyObject!
@@ -29,10 +29,10 @@ class GenericClient: NSObject {
             parsedResult = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
         } catch {
             print("Could not parse the data as JSON: '\(data)'")
-            completionHandler(result: nil, error: .JSONNotConverted)
+            completion(result: nil, error: .JSONNotConverted)
         }
         
-        completionHandler(result: parsedResult, error: nil)
+        completion(result: parsedResult, error: nil)
     }
     
     /* Helper function: Given a dictionary of parameters, convert to a string for a url */
