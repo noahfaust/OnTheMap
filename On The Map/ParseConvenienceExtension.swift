@@ -136,7 +136,6 @@ extension ParseClient {
                 JSONKeys.Latitude: userInfo.latitude!,
                 JSONKeys.Longitude: userInfo.longitude!,
                 JSONKeys.MediaURL: userInfo.mediaURL!]
-            print("jsonBody: \(jsonBody)")
             
             taskForPUTMethod(mutableMethod, jsonBody: jsonBody) { result, error in
                 

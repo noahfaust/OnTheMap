@@ -85,7 +85,6 @@ class ParseClient: GenericClient {
         do {
             request.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(jsonBody, options: .PrettyPrinted)
         }
-        print("HTTPBody: \(NSString(data: request.HTTPBody!, encoding: NSUTF8StringEncoding)))")
         
         /* 4. Make the request */
         let task = session.dataTaskWithRequest(request) { data, response, error in
@@ -149,7 +148,6 @@ class ParseClient: GenericClient {
         do {
             request.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(jsonBody, options: .PrettyPrinted)
         }
-        print("HTTPBody: \(NSString(data: request.HTTPBody!, encoding: NSUTF8StringEncoding)))")
         
         /* 4. Make the request */
         let task = session.dataTaskWithRequest(request) { data, response, error in

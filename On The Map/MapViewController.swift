@@ -116,7 +116,6 @@ extension MapViewController: MKMapViewDelegate {
                 // Get a valid url string
                 if let validUrlString = validateURL(urlString) {
                     if let url = NSURL(string: validUrlString) {
-                        print("url: \(url.absoluteString)")
                         let svc = SFSafariViewController(URL: url)
                         self.presentViewController(svc, animated: true, completion: nil)
                     }else {

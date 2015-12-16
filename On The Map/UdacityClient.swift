@@ -17,8 +17,6 @@ class UdacityClient: GenericClient {
     
     func taskForGETMethod(method: String, completion: (result: AnyObject?, error: ClientError?) -> Void) -> NSURLSessionDataTask {
         
-        print("taskForGETMethod START")
-        
         /* 1. Set the parameters */
         
         /* 2/3. Build the URL and configure the request */
