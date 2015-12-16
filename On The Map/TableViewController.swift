@@ -25,9 +25,11 @@ class TableViewController: CustomViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        if ParseClient.sharedInstance().needRefresh() {
+        if ParseClient.sharedInstance().needDataRefresh() {
+            // if the user just checked in a new location, the last 100 locations are downloaded and the map reloads the 100 cells
             loadStudentLocations()
         } else {
+            // else the map just reload the cells
             hideLoadingIndicator()
             tableView.reloadData()
         }

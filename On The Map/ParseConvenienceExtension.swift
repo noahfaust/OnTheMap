@@ -8,7 +8,7 @@
 
 extension ParseClient {
     
-    func needRefresh() -> Bool {
+    func needDataRefresh() -> Bool {
         return studentLocations.isEmpty || newCheckInSinceLastRefresh
     }
     

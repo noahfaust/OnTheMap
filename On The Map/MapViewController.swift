@@ -24,11 +24,11 @@ class MapViewController: CustomViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
-        // TODO: reload data
-        if ParseClient.sharedInstance().needRefresh() {
+        // if the user just checked in a new location, the last 100 locations are downloaded and the map reloads the 100 pins
+        if ParseClient.sharedInstance().needDataRefresh() {
             loadStudentLocations()
-        }
-        else {
+        } else {
+            // else the map just reload the pins
             reloadPins()
         }
     }
@@ -73,12 +73,13 @@ class MapViewController: CustomViewController {
             }
         }
         dispatch_async(dispatch_get_main_queue()) {
-            // When the array is complete, we add the annotations to the map.
-            // TODO:remove existing annotations : self.mapView.
+            // First remove all existing pins
             self.mapView.removeAnnotations(self.mapView.annotations)
             
+            // When the array is complete, we add the annotations to the map.
             self.mapView.addAnnotations(annotations)
             
+            // Hide the loading activity indicator
             self.hideLoadingIndicator()
         }
     }
@@ -110,13 +111,19 @@ extension MapViewController: MKMapViewDelegate {
     // to the URL specified in the annotationViews subtitle property.
     func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         if control == view.rightCalloutAccessoryView {
+            // Get the url from the pin subtitle
             if let urlString = view.annotation!.subtitle! {
-                print("urlString: \(urlString)")
-                if let url = NSURL(string: urlString) {
-                    print("url: \(url.absoluteString)")
-                    //let svc = SFSafariViewController(URL: NSURL(string: toOpen)!)
-                    let svc = SFSafariViewController(URL: url)
-                    self.presentViewController(svc, animated: true, completion: nil)
+                // Get a valid url string
+                if let validUrlString = validateURL(urlString) {
+                    if let url = NSURL(string: validUrlString) {
+                        print("url: \(url.absoluteString)")
+                        let svc = SFSafariViewController(URL: url)
+                        self.presentViewController(svc, animated: true, completion: nil)
+                    }else {
+                        promtAlert("The shared link is invalid")
+                    }
+                } else {
+                    promtAlert("The shared link is invalid")
                 }
             }
         }
