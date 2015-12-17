@@ -11,8 +11,6 @@ import Foundation
 class ParseClient: GenericClient {
     
     /* Student Locations */
-    var studentLocations: [StudentInformation] = [StudentInformation]()
-    var newCheckInSinceLastRefresh = false
     
     func taskForGETMethod(method: String, parameters: [String : AnyObject], completion: (result: AnyObject?, error: ClientError?) -> Void) -> NSURLSessionDataTask {
         

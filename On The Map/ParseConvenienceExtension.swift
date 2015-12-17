@@ -8,10 +8,6 @@
 
 extension ParseClient {
     
-    func needDataRefresh() -> Bool {
-        return studentLocations.isEmpty || newCheckInSinceLastRefresh
-    }
-    
     func getStudentLocations(completion: (success: Bool, errorString: String?) -> Void) {
         
         /* 1. Specify parameters, method (if has {key}), and HTTP body (if POST) */
@@ -37,8 +33,8 @@ extension ParseClient {
                 return
             }
             
-            self.studentLocations = StudentInformation.studentinfoFromResults(results)
-            self.newCheckInSinceLastRefresh = false
+            self.appData.studentLocations = StudentInformation.studentinfoFromResults(results)
+            self.appData.newCheckInSinceLastRefresh = false
             completion(success: true, errorString: nil)
         }
     }
@@ -79,7 +75,7 @@ extension ParseClient {
                 completion(success: false, errorString: "Current location not retrieved")
                 return
             }
-            self.appDelegate.userInfo?.setLocation(current)
+            self.appData.userInfo?.setLocation(current)
             
             completion(success: true, errorString: nil)
         }
@@ -88,7 +84,7 @@ extension ParseClient {
     func postStudentLocation(completion: (success: Bool, errorString: String?) -> Void) {
         /* 1. Specify parameters (none), method, and HTTP body */
         let method = Methods.StudentLocation
-        if let userInfo = self.appDelegate.userInfo {
+        if let userInfo = self.appData.userInfo {
             let jsonBody : [String:AnyObject] = [
                 JSONKeys.UniqueKey: userInfo.uniqueKey,
                 JSONKeys.FirstName: userInfo.firstName,
@@ -117,7 +113,7 @@ extension ParseClient {
                     return
                 }
                 
-                self.appDelegate.userInfo?.objectId = objectId
+                self.appData.userInfo?.objectId = objectId
                 
             }
         }
@@ -125,9 +121,9 @@ extension ParseClient {
     
     func putStudentLocation(completion: (success: Bool, errorString: String?) -> Void) {
         var mutableMethod = Methods.StudentLocationObjectId
-        mutableMethod = subtituteKeyInMethod(mutableMethod, key: URLKeys.ObjectId, value: self.appDelegate.userInfo!.objectId!)
+        mutableMethod = subtituteKeyInMethod(mutableMethod, key: URLKeys.ObjectId, value: self.appData.userInfo!.objectId!)
         
-        if let userInfo = appDelegate.userInfo {
+        if let userInfo = appData.userInfo {
             let jsonBody : [String:AnyObject] = [
                 JSONKeys.UniqueKey: userInfo.uniqueKey,
                 JSONKeys.FirstName: userInfo.firstName,

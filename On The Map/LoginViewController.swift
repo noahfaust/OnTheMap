@@ -73,10 +73,13 @@ class LoginViewController: CustomViewController, FBSDKLoginButtonDelegate {
     // Required method to implemenent the facebook login button
     func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
         guard error == nil else {
+            self.hideLoadingIndicator()
             promtAlert("There was an error with your facebook login")
             return
         }
+        
         guard !result.isCancelled  else {
+            self.hideLoadingIndicator()
             promtAlert("Your request has been cancelled")
             return
         }

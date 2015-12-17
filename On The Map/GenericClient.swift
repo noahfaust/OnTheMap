@@ -11,12 +11,13 @@ import Foundation
 class GenericClient: NSObject {
     
     /* Shared session */
-    var session: NSURLSession
-    var appDelegate: AppDelegate!
+    let session: NSURLSession
+    
+    let appData: AppData
     
     override init() {
         session = NSURLSession.sharedSession()
-        appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        appData = AppData.sharedInstance()
         super.init()
     }
     

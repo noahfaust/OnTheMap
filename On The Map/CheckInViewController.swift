@@ -74,9 +74,9 @@ class CheckInViewController: CustomViewController {
         }
         mediaURL = validURL
         
-        appDelegate.userInfo!.setLocation(location!, mapString: address, mediaURL: mediaURL)
+        appData.userInfo!.setLocation(location!, mapString: address, mediaURL: mediaURL)
         
-        if let userInfo = appDelegate.userInfo {
+        if let userInfo = appData.userInfo {
             if userInfo.objectId == nil {
                 ParseClient.sharedInstance().postStudentLocation(submitCompletionHandler)
             } else {
@@ -87,12 +87,14 @@ class CheckInViewController: CustomViewController {
     
     private func submitCompletionHandler(success: Bool, errorString: String?) {
         if success {
-            ParseClient.sharedInstance().newCheckInSinceLastRefresh = true
+            appData.newCheckInSinceLastRefresh = true
             dispatch_async(dispatch_get_main_queue()) {
+                self.hideLoadingIndicator()
                 self.dismissViewControllerAnimated(true, completion: nil)
             }
         } else {
             dispatch_async(dispatch_get_main_queue()) {
+                self.hideLoadingIndicator()
                 self.promtAlert(errorString!)
             }
         }
@@ -101,8 +103,12 @@ class CheckInViewController: CustomViewController {
     private func findAddress(address: String) {
         showLoadingIndicator()
         geocode(address) { location -> Void in
+            
             guard let location = location else {
-                self.promtAlert("The location you entered could not be geocoded, please refine your location")
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.hideLoadingIndicator()
+                    self.promtAlert("The location you entered could not be geocoded, please refine your location")
+                }
                 return
             }
             

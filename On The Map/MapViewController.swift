@@ -25,7 +25,7 @@ class MapViewController: CustomViewController {
     
     override func viewWillAppear(animated: Bool) {
         // if the user just checked in a new location, the last 100 locations are downloaded and the map reloads the 100 pins
-        if ParseClient.sharedInstance().needDataRefresh() {
+        if appData.needDataRefresh() {
             loadStudentLocations()
         } else {
             // else the map just reload the pins
@@ -52,7 +52,11 @@ class MapViewController: CustomViewController {
     func loadStudentLocations() {
         showLoadingIndicator()
         ParseClient.sharedInstance().getStudentLocations { success, error -> Void in
-            self.reloadPins()
+            if success {
+                self.reloadPins()
+            } else {
+                self.promtAlert(error!)
+            }
         }
     }
     
@@ -66,7 +70,7 @@ class MapViewController: CustomViewController {
         // to create map annotations. This would be more stylish if the dictionaries were being
         // used to create custom structs. Perhaps StudentLocation structs.
         
-        for studentInfo in ParseClient.sharedInstance().studentLocations {
+        for studentInfo in appData.studentLocations {
 
             if let annotation = studentInfo.getMapViewAnnotation() {
                 annotations.append(annotation)

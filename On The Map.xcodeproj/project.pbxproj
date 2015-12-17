@@ -17,6 +17,7 @@
 		F10540CC1C12DC0500F842F3 /* StudentInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10540CB1C12DC0500F842F3 /* StudentInformation.swift */; };
 		F123804C1C2292E900CF9D63 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F123804A1C2292E900CF9D63 /* FBSDKCoreKit.framework */; };
 		F123804E1C2292E900CF9D63 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F123804B1C2292E900CF9D63 /* FBSDKLoginKit.framework */; };
+		F12380511C23016F00CF9D63 /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12380501C23016F00CF9D63 /* AppData.swift */; };
 		F19C0C301C19A7D8001B79AA /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1F634C31C0F0CD100A7E67C /* Roboto-Medium.ttf */; };
 		F19C0C311C19A7D8001B79AA /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1F634C41C0F0CD200A7E67C /* Roboto-Regular.ttf */; };
 		F19C0C321C19A7D8001B79AA /* Roboto-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1F634C51C0F0CD200A7E67C /* Roboto-Thin.ttf */; };
@@ -71,6 +72,7 @@
 		F123804B1C2292E900CF9D63 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = FacebookSDK/FBSDKLoginKit.framework; sourceTree = SOURCE_ROOT; };
 		F123804D1C2292E900CF9D63 /* On The Map.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "On The Map.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F123804F1C2293C000CF9D63 /* Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
+		F12380501C23016F00CF9D63 /* AppData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
 		F1A6F67F1C13E2E6005D7DD7 /* FacebookHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FacebookHelper.swift; sourceTree = "<group>"; };
 		F1A6F6811C15822B005D7DD7 /* CheckInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckInViewController.swift; sourceTree = "<group>"; };
 		F1BBE6471C1C0B9100AF8C85 /* InformationPostingButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InformationPostingButton.swift; sourceTree = "<group>"; };
@@ -194,6 +196,7 @@
 		F1F634C81C10533400A7E67C /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				F12380501C23016F00CF9D63 /* AppData.swift */,
 				F10540CB1C12DC0500F842F3 /* StudentInformation.swift */,
 				F1F634D91C10934200A7E67C /* Clients */,
 			);
@@ -414,6 +417,7 @@
 				F1F634E41C118C0C00A7E67C /* UdacityConvenienceExtension.swift in Sources */,
 				F10540C81C12D35600F842F3 /* ParseConstantsExtension.swift in Sources */,
 				F103B9771C12F0FF00D2B842 /* MapViewController.swift in Sources */,
+				F12380511C23016F00CF9D63 /* AppData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

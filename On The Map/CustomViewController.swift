@@ -10,11 +10,11 @@ import UIKit
 
 class CustomViewController: UIViewController {
     
-    var appDelegate: AppDelegate!
+    var appData: AppData!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        appData = AppData.sharedInstance()
     }
     
     /* Helper: validate URL */

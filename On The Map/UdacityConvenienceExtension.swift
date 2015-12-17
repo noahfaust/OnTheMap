@@ -121,7 +121,7 @@ extension UdacityClient {
             // Set SessionId and UserId to nil whatever the method suceeded or not
             self.sessionId = nil
             self.userId = nil
-            self.appDelegate.userInfo = nil
+            self.appData.userInfo = nil
             completion(success: true, errorString: nil)
         }
     }
@@ -150,7 +150,7 @@ extension UdacityClient {
                 /* 6. Use the data! */
                 let firstName = userDictionnary[JSONResponseKeys.FirstName] as? String
                 let lastName = userDictionnary[JSONResponseKeys.LastName] as? String
-                self.appDelegate.userInfo = StudentInformation(userId: self.userId!, firstName: firstName, lastName: lastName)
+                self.appData.userInfo = StudentInformation(userId: self.userId!, firstName: firstName, lastName: lastName)
                 
                 completion(success: true, errorString: nil)
             }

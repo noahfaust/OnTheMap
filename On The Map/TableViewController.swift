@@ -25,7 +25,7 @@ class TableViewController: CustomViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        if ParseClient.sharedInstance().needDataRefresh() {
+        if appData.needDataRefresh() {
             // if the user just checked in a new location, the last 100 locations are downloaded and the map reloads the 100 cells
             loadStudentLocations()
         } else {
@@ -79,7 +79,7 @@ extension TableViewController: UITableViewDelegate, UITableViewDataSource {
         
         /* Get cell type */
         let cellReuseIdentifier = "LocationCell"
-        let location = ParseClient.sharedInstance().studentLocations[indexPath.row]
+        let location = appData.studentLocations[indexPath.row]
         let cell = tableView.dequeueReusableCellWithIdentifier(cellReuseIdentifier) as UITableViewCell!
         
         /* Set cell defaults */
@@ -94,21 +94,29 @@ extension TableViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return ParseClient.sharedInstance().studentLocations.count
+        return appData.studentLocations.count
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        let location = ParseClient.sharedInstance().studentLocations[indexPath.row]
+        let location = appData.studentLocations[indexPath.row]
         
-        if let urlString = location.mediaURL {
-            if let validUrl = validateURL(urlString) {
-                if let url = NSURL(string: validUrl) {
-                    let svc = SFSafariViewController(URL: url)
-                    self.presentViewController(svc, animated: true, completion: nil)
-                }
-            }
+        guard let urlString = location.mediaURL else {
+            // mediaURL is empty
+            return
         }
+        guard let validUrl = validateURL(urlString) else {
+            promtAlert("This link is invalid, it cannot be opened")
+            return
+        }
+        guard let url = NSURL(string: validUrl) else {
+            promtAlert("This link is invalid, it cannot be opened")
+            return
+        }
+        
+        let svc = SFSafariViewController(URL: url)
+        self.presentViewController(svc, animated: true, completion: nil)
+        
     }
 }
 
