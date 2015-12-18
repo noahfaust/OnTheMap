@@ -55,6 +55,7 @@ class MapViewController: CustomViewController {
             if success {
                 self.reloadPins()
             } else {
+                self.hideLoadingIndicator()
                 self.promtAlert(error!)
             }
         }
